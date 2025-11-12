@@ -1,0 +1,115 @@
+.upload_images .items {
+  margin-right: -8px;
+}
+.upload_images .items .item {
+  margin-right: 8px;
+}
+
+.specification {
+  border: 1px solid #eee;
+  padding: 10px;
+}
+.specification .item {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.specification .item .stitle {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.specification .item_list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -10px;
+}
+.specification .il_item {
+  margin: 0 10px 10px 0;
+  cursor: pointer;
+}
+.specification .il_item .iconfont::before {
+  content: '\e72f';
+}
+.specification .il_item.on .iconfont::before {
+  content: '\e731';
+  color: #ff0000;
+}
+.specification .item_list .msg {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 10px;
+}
+.specification .actionbox .btn {
+  font-size: 12px;
+}
+.specification_group .table {
+  font-size: 12px;
+  border: 1px solid #eee;
+}
+.specification_group .table .th {
+  background: #fafafa;
+  font-weight: 600;
+}
+.specification_group .table td {
+  border: 1px solid #eee;
+}
+.specification_group .table input {
+  border: 1px solid #ccc;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+.specification_group .batch_operation {
+  display: flex;
+  align-items: center;
+}
+.specification_group .batch_operation input {
+  border: 1px solid #ccc;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.product_images .items {
+  display: flex;
+  margin-right: -10px;
+}
+.product_images .product_image {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #eee;
+  margin-right: 10px;
+  cursor: pointer;
+  background: url(/static/admin/images/细节图.png) no-repeat center;
+  position: relative;
+  background-size: 60% 60%;
+  text-align: center;
+}
+.product_images .product_image0 {
+  background-image: url(/static/admin/images/主图.png);
+}
+.product_images .product_image img {
+  max-width: 95%;
+  max-height: 95%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.product_images .product_image .close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+.product_images .product_image .close::before {
+  content: '\e607';
+  color: #ff0000;
+}
+.product_images .cpty_img_btn {
+  margin-top: 30px;
+}
+.remark {
+  font-size: 12px;
+  color: #999;
+  margin-left: 6px;
+}

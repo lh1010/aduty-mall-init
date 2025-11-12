@@ -1,0 +1,90 @@
+@charset "utf-8";
+
+* {
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  min-width: 1200px;
+  background-color: #F5F6FA !important;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+}
+
+.iconfont{
+  font-family: "iconfont" !important;
+  font-size: 1rem;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: 'iconfont';  /* Project id 4050485 */
+  src: url('//at.alicdn.com/t/c/font_4050485_39a4pl6135k.woff2?t=1706848472573') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4050485_39a4pl6135k.woff?t=1706848472573') format('woff'),
+       url('//at.alicdn.com/t/c/font_4050485_39a4pl6135k.ttf?t=1706848472573') format('truetype');
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none !important;
+  color: #00B38A;
+}
+a:link {
+  text-decoration: none !important;
+}
+a:visited {
+  text-decoration: none !important;
+}
+ul, ol{
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+ul li {
+  list-style-type: none;
+}
+ol, ul {
+  padding-left: 0;
+}
+i, em {
+  font-style: normal;
+}
+input, button {
+  overflow: visible;
+  vertical-align: middle;
+  outline: none;
+  border: 0;
+}
+button,
+input[type="button"],
+input[type="submit"] {
+  line-height: normal !important;
+  cursor: pointer;
+}
+
+.none {
+  display: none;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+/* 屏幕宽度<=1170px样式 */
+@media (min-width: 1170px) {
+  
+}
+
+/* 屏幕宽度<=768px样式 */
+@media (max-width: 768px) {
+  
+}
