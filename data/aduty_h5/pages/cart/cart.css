@@ -1,0 +1,125 @@
+.empty_data {
+	margin-top: 50px;
+	text-align: center;
+}
+.empty_data .cart_img {
+	width: 70px;
+	height: 70px;
+	margin: 0 auto;
+	display: block;
+	opacity: .5;
+}
+.empty_data .msg {
+	font-size: 12px;
+	color: #999;
+	margin-top: 10px;
+}
+.empty_data .btn {
+	border: 1px solid #333;
+	padding: 3px 30px;
+	border-radius: 20px;
+	display: inline-block;
+	margin-top: 20px;
+	font-size: 14px;
+}
+
+.cart .data_list .items {
+	background-color: #fff;
+	padding: 30rpx;
+	margin-bottom: 30rpx;
+}
+.cart .data_list .items_top {
+	margin-bottom: 30rpx;
+	padding-bottom: 30rpx;
+	border-bottom: 1px solid #f5f5f5;
+	display: flex;
+}
+.cart .data_list .icon_selected {
+	margin-right: 8px;
+	font-weight: 400;
+	color: #999;
+}
+.cart .data_list .icon_selected.on:before {
+	content: '\e731';
+	color: #ff6131;
+}
+.cart .data_list .items .item_product {
+	display: flex;
+	flex-wrap: nowrap;
+	margin-bottom: 30rpx;
+	padding-bottom: 30rpx;
+	border-bottom: 1px solid #f5f5f5;
+}
+.cart .data_list .items .item_product:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border: none;
+}
+.cart .data_list .items .item_product .cover {
+	width: 158rpx;
+	height: 158rpx;
+	border-radius: 5px;
+	margin-right: 10px;
+	border: 1px solid #eee;
+}
+.cart .data_list .items .item_product .info {
+	flex: 1;
+}
+.cart .data_list .items .item_product .info .name {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
+}
+.cart .data_list .items .item_product .info .types {
+  font-size: 12px;
+  color: #999;
+  display: flex;
+}
+.cart .data_list .items .item_product .info .types_item {
+  margin-right: 10rpx;
+}
+.cart .data_list .items .item_product .info .price {
+	color: #ff0000;
+}
+.cart .data_list .items .item_product .info .pricebox .number {
+	float: right;
+	color: #999;
+	font-size: 12px;
+	padding-top: 5px;
+}
+.cart .foot_action {
+	background-color: #fff;
+	padding: 34rpx 30rpx;
+	overflow: hidden;
+}
+.cart .foot_action .left {
+	float: left;
+	display: flex;
+}
+.cart .foot_action .pricebox {
+	margin-right: 10px;
+}
+.cart .foot_action .em {
+	font-size: 12px;
+}
+.cart .foot_action .price {
+	color: #ff0000;
+}
+.cart .foot_action .right {
+	float: right;
+	display: flex;
+}
+.cart .foot_action .right .btn {
+	text-align: center;
+	padding: 3px 12px;
+	background-color: #ff6131;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 14px;
+}
+.cart .foot_action .right .btn-delete {
+	background-color: #6c757d;
+}

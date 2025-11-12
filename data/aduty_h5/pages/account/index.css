@@ -1,0 +1,238 @@
+.ptop {
+	padding: 40rpx 0 40rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ptop .userbox {
+  display: flex;
+  align-items: center;
+}
+.ptop .userbox .avatar {
+	width: 110rpx;
+	height: 110rpx;
+	border-radius: 50%;
+	vertical-align: top;
+  object-fit: cover;
+}
+.ptop .userbox .infobox {
+	margin-left: 18rpx;
+}
+.ptop .userbox .infobox .name {
+	font-weight: bold;
+}
+.ptop .userbox .infobox .name .iconfont {
+	margin-left: 4rpx;
+	font-size: 12px;
+	font-weight: 400;
+  color: #999;
+}
+.ptop .userbox .infobox .tags {
+  font-size: 12px;
+	color: #999;
+}
+.ptop .rightbox {
+  float: right;
+}
+.ptop .rightbox .qiandao {
+  background: #ff6131;
+  color: #fff;
+  font-size: 12px;
+  padding: 8rpx 50rpx;
+  border-radius: 4px;
+  margin-top: 10rpx;
+}
+
+.box2 {
+  background-color: #fff;
+  padding: 40rpx 0;
+  font-size: 14px;
+  border-radius: 4px;
+}
+.box2 .stitle {
+  padding: 0 30rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.box2 .stitle .more {
+	font-weight: normal;
+	font-size: 12px;
+	color: #999;
+}
+.box2 .stitle .more .iconfont {
+	margin-left: 3px;
+}
+.box2 .items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -30rpx;
+}
+.box2 .item {
+  width: 25%;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+.box2 .item .icon .iconfont {
+  margin-bottom: 3px;
+  font-size: 24px;
+  color: #ff6131;
+}
+.box2 .item .txt {
+  margin-top: 5px;
+}
+.box2.myorder .item {
+	width: 20%;
+}
+
+.box3 {
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 30rpx;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.box3 .items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -10px;
+}
+.box3 .item {
+  width: 50%;
+  margin-bottom: 10px;
+}
+.box3 .item .iconfont {
+  margin-right: 6px;
+}
+.box3 .item .icon1 {
+  color: #198754;
+}
+.box3 .item .icon2 {
+  color: #007AFF;
+}
+.box3 .item .icon3 {
+  color: #38b7ee;
+}
+.box3 .item .icon4 {
+  color: #ff4b9f;
+}
+
+.box4 {
+  border-radius: 4px;
+  margin-top: 30rpx;
+  background-color: #fff;
+  font-size: 14px;
+}
+.box4 .stitle {
+  padding: 0 30rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-weight: bold;
+  border-bottom: 1px solid #f9f9f9;
+}
+.box4 .items .item {
+	height: 100rpx;
+	line-height: 100rpx;
+	margin: 0 auto;
+	border-bottom: 1px solid #f9f9f9;
+	padding: 0 30rpx;
+	overflow: hidden;
+	display: block;
+}
+.box4 .items .item:last-child {
+	border: none;
+}
+.box4 .items .item .left {
+	float: left;
+}
+.items .item .left i {
+	margin-right: 6px;
+  display: inline-block;
+}
+.box4 .items .item .right {
+	float: right;
+}
+.box4 .items .item .right .iconfont {
+	color: #999;
+	font-size: 24rpx;
+}
+.box4 .items .item .right .txt {
+	margin-right: 5px;
+  color: #999;
+  font-size: 14px;
+}
+.box4 .items .item.about {
+	text-align: center;
+	color: #999;
+	letter-spacing: 2px;
+  font-size: 24rpx;
+}
+
+.account_banner {
+	margin-top: 30rpx;
+}
+.account_banner .img {
+	width: 100%;
+	height: 130rpx;
+	display: block;
+}
+
+.vipcard {
+  background: linear-gradient(to bottom right, #dacbaa, #d8b66c);
+  border-radius: 4px;
+  color: #4e3a10;
+  font-size: 14px;
+	box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  margin-bottom: 30rpx;
+}
+.vipcard .bd {
+	padding: 40rpx 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vipcard .stitle {
+	font-weight: 600;
+	letter-spacing: 1px;
+}
+.vipcard .des {
+  font-size: 12px;
+}
+.vipcard .btn {
+  background-color: #fcf8e3;
+  color: #4e3a10;
+  border-radius: 20px;
+  padding: 6px 12px;
+	font-size: 12px;
+}
+
+.invitebox {
+  margin-bottom: 30rpx;
+  margin-top: 30rpx;
+}
+.invitebox .img {
+  width: 100%;
+  height: 126rpx;
+}
+
+.order_status_list {
+  margin-top: 30rpx;
+}
+.order_status_list .item {
+  width: 20%;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+.order_status_list .item .iconfont {
+  background-color: #ff6131;
+  color: #fff !important;
+  border-radius: 8px;
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  font-size: 20px !important;
+}

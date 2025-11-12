@@ -1,0 +1,137 @@
+.abox1 {
+  text-align: center;
+  padding: 50px 0 40px 0;
+  color: #fff;
+}
+.abox1 .vm1 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 30rpx;
+}
+.abox1 .vm2 {
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.abox1 .vm3 {
+  font-size: 12px;
+	margin-top: 30rpx;
+}
+.abox2 {
+  width: 700rpx;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+}
+.abox2 .bd {
+  padding: 40rpx 30rpx 50rpx 30rpx;
+}
+.abox2 .btn {
+  background: linear-gradient(120deg,#fb9503,#fd5b0b);
+  text-align: center;
+  color: #fff;
+  border-radius: 25px;
+  padding: 5px 0;
+  font-size: 18px;
+  margin-top: 30rpx;
+}
+.abox2 .msg {
+  text-align: center;
+  color: #666;
+}
+.abox3 {
+  width: 700rpx;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-top: 40rpx;
+  color: #666;
+}
+.abox3 .bd {
+  padding: 40rpx 30rpx 50rpx 30rpx;
+}
+.abox3 .stitle {
+  text-align: center;
+}
+.abox3 .infobox {
+  color: #a5623d;
+  background-color: #fcf8e3;
+  box-shadow: 0 0 1px #f5e0c1;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 30rpx;
+  margin-top: 30rpx;
+}
+
+.luck-table {
+  border-radius: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  margin-top: 30rpx;
+}
+.luck-table .luck-table-tr {
+  display: flex;
+}
+.luck-table .luck-table-th {
+  flex: 1;
+  padding: 8px 10px;
+  background-color: #ffe6c9;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #333;
+}
+.luck-table .luck-table-td {
+  flex: 1;
+  padding: 8px 10px;
+}
+.luck-table .text-center {
+  text-align: center;
+}
+
+.invite_img {
+  width: 690rpx;
+  margin: 0 auto;
+}
+.invite_img .img {
+  width: 690rpx;
+  display: block;
+}
+.invite_img .des {
+  text-align: center;
+  height: 42px;
+  line-height: 42px;
+  color: #666;
+  font-size: 12px;
+}
+.invite_img .btn {
+  width: 85%;
+  text-align: center;
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #fff;
+  border: none;
+  border-radius: 10rpx;
+  background-color: #f4645f;
+  margin: 0 auto;
+  margin-top: 40rpx;
+}
+
+.loginbox {
+	width: 700rpx;
+	margin: 0 auto;
+	text-align: center;
+}
+.loginbox .btn {
+	width: 600rpx;
+	margin: 0 auto;
+	background: linear-gradient(120deg, #ffffff, #eeeeee);
+	color: #555;
+	font-weight: 600;
+	border-radius: 20px;
+	padding: 10px;
+	font-size: 14px;
+	letter-spacing: 2px;
+	box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}

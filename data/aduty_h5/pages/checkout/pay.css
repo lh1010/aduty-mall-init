@@ -1,0 +1,80 @@
+.pricebox {
+	text-align: center;
+	padding: 30rpx;
+}
+.pricebox .price {
+	color: #ff0000;
+	font-weight: 600;
+	font-size: 20px;
+}
+.pay_orders {
+  background-color: #fff;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+.pay_orders .stitle {
+  font-weight: 600;
+  margin-bottom: 30rpx;
+}
+.pay_orders .item .spa {
+  margin-left: 5px;
+  color: #0d6efd;
+}
+.payment {
+	background-color: #fff;
+	padding: 0 30rpx;
+}
+.payment .stitle {
+	padding: 30rpx 0 30rpx 0;
+	border-bottom: 1px solid #f5f5f5;
+  font-weight: 600;
+}
+
+.foot_action_blank {
+  height: 170rpx;
+}
+.foot_action {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	opacity: .9;
+	background-color: #fff;
+	border-top: 1px solid #eeeeee;
+	height: 90rpx;
+	padding: 40rpx 0;
+}
+.foot_action .btn {
+	text-align: center;
+	width: 95%;
+	height: 90rpx;
+	line-height: 90rpx;
+	background-color: #ff0000;
+	color: #fff;
+	border: none;
+	border-radius: 10rpx;
+	padding: 0;
+	margin: 0 auto;
+}
+
+.result {
+	text-align: center;
+	padding: 60rpx;
+}
+.result .txt .iconfont {
+	margin-right: 8rpx;
+}
+.result .des {
+	margin-top: 20rpx;
+	color: #999;
+	font-size: 24rpx;
+}
+.result .btns {
+	margin-top: 30rpx;
+}
+.result .btns .btn {
+	margin-left: 10rpx;
+}
+.result .btns .btn:first-child {
+	margin-left: 0;
+}

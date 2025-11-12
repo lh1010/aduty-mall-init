@@ -1,0 +1,12 @@
+<script type="text/javascript" src="/static/admin/plugins/UEditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/admin/plugins/UEditor/ueditor.all.js"></script>
+<script type="text/javascript" src="/static/admin/plugins/UEditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+UE.getEditor('myEditor', {
+	toolbars:[['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat', 'formatmatch', 'forecolor', 'backcolor', 'fontfamily', 'fontsize', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'simpleupload', 'insertimage', 'insertvideo', 'fullscreen']],
+	wordCount:false,
+	elementPathEnabled: false,
+	autoHeightEnabled: false,
+	initialFrameHeight: 350
+});
+</script>

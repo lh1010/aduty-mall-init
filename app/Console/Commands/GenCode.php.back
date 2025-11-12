@@ -1,0 +1,357 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use DB;
+use Illuminate\Support\Facades\Schema;
+
+class GenCode extends Command
+{
+    /**
+     * --table_name 数据库表名
+     * --route 示例值:Api|Admin|Web...
+     */
+    protected $signature = 'command:genCode {--table_name=} {--route=}';
+
+    // 数据库表名 table_name
+    private $table_name = '';
+
+    // 数据库表字段
+    private $table_columns = [];
+
+    // 路由 route 示例值:Api|Admin|Web...
+    private $route = 'Api';
+
+    // 独立拥有Repositorys
+    private $own = ['Admin'];
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * genCode
+     * 生成相关常用文件
+     * php artisan command:genCode --table_name=test100 --route=Api
+     */
+    public function handle()
+    {
+        $this->table_name = $this->option('table_name', '');
+        $this->table_columns = Schema::getColumnListing($this->table_name);
+        if (empty($this->table_columns)) dd('不存在的数据库表: '. $this->table_name);
+
+        if ($this->option('route')) $this->route = $this->option('route');
+
+        $this->genController();
+        echo "Controller创建成功: " . $this->table_name . "\n";
+
+        $this->genRepository();
+        echo "Repository创建成功: " . $this->table_name . "\n";
+    }
+
+    // 创建控制器
+    public function genController()
+    {
+        $path = app_path() . '/Http/Controllers/';
+
+        if (!empty($this->route)) $path .= $this->route . '/';
+
+        $path .= ucfirst($this->table_name) . 'Controller.php';
+
+        $path = str_replace('\\', '/', $path);
+
+        //if (file_exists($path)) dd('文件已存在: '. $path);
+
+        $myFile = fopen($path, 'w+');
+
+        if (in_array($this->route, ['Api'])) {
+            $content = "<?php
+
+namespace App\Http\Controllers\\" . $this->route . ";
+
+use Illuminate\Http\Request;
+use DB;";
+
+        if (in_array($this->route, $this->own)) {
+            $content .= "
+use App\Repositorys\\" . $this->route . "\\" . ucfirst($this->table_name) . "Repository;
+";
+        } else {
+            $content .= "
+use App\Repositorys\\" . ucfirst($this->table_name) . "Repository;
+";
+        }
+
+        $content .= "
+class " . ucfirst($this->table_name) . "Controller extends BaseController
+{
+    public function getList(Request \$request)
+    {
+        \$params = \$request->all();
+        \$results = app(" . ucfirst($this->table_name) . "Repository::class)->getList(\$params);;
+        return jsonSuccess(\$results);
+    }
+
+    public function getShow(Request \$request)
+    {
+        \$id = \$request->id;
+        \$params = \$request->all();
+        \$result = app(" . ucfirst($this->table_name) . "Repository::class)->getShow(\$id, \$params);;
+        return jsonSuccess(\$result);
+    }
+
+    public function store(\App\Http\Requests\\" . ucfirst($this->table_name) . "\store \$request)
+    {
+        \$params = \$request->all();
+        \$loginUser = getLoginUser();
+
+        \$data = app(" . ucfirst($this->table_name) . "Repository::class)->setCreateUpdateParams(\$params);
+        \$data['user_id'] = \$loginUser->id;
+
+        DB::beginTransaction();
+        try {
+            \$id = DB::table('" . $this->table_name . "')->insertGetId(\$data);
+            DB::commit();
+            return jsonSuccess();
+        } catch (\Throwable \$th) {
+            DB::rollBack();
+            return jsonFailed(\$th->getMessage());
+        }
+    }
+
+    public function update(\App\Http\Requests\\" . ucfirst($this->table_name) . "\update \$request)
+    {
+        \$params = \$request->all();
+        \$loginUser = getLoginUser();
+
+        \$result = DB::table('" . $this->table_name . "')->where(['id' => \$request->id, 'user_id' => \$loginUser->id])->where('status', '<>', 99)->first();
+        if (empty(\$result)) return arrayFailed('内容不存在');
+
+        \$data = app(" . ucfirst($this->table_name) . "Repository::class)->setCreateUpdateParams(\$params);
+
+        DB::beginTransaction();
+        try {
+            DB::table('" . $this->table_name . "')->where('id', \$result->id)->update(\$data);
+            DB::commit();
+            return jsonSuccess();
+        } catch (\Throwable \$th) {
+            DB::rollBack();
+            return jsonFailed(\$th->getMessage());
+        }
+    }
+
+    public function delete(Request \$request)
+    {
+        \$loginUser = \$request->get('user');
+        \$result = DB::table('" . $this->table_name . "')->where(['id' => \$request->id, 'user_id' => \$loginUser->id])->where('status', '<>', 99)->first();
+        if (empty(\$result)) return arrayFailed('内容不存在');
+        DB::table('" . $this->table_name . "')->where(['id' => \$result->id])->update(['status' => 99]);
+        return jsonSuccess();
+    }
+}";
+    }
+
+    if (in_array($this->route, ['Admin'])) {
+        $content = "<?php
+
+namespace App\Http\Controllers\\" . $this->route . ";
+
+use Illuminate\Http\Request;
+use DB;";
+
+    if (in_array($this->route, $this->own)) {
+        $content .= "
+use App\Repositorys\\" . $this->route . "\\" . ucfirst($this->table_name) . "Repository;
+";
+        } else {
+            $content .= "
+use App\Repositorys\\" . ucfirst($this->table_name) . "Repository;
+";
+        }
+
+        $content .= "
+class " . ucfirst($this->table_name) . "Controller extends BaseController
+{
+    public function list(Request \$request)
+    {
+        \$params = \$request->all();
+        \$results = app(" . ucfirst($this->table_name) . "Repository::class)->getList(\$params);;
+        return view('admin." . $this->table_name . ".list', compact('results'));
+    }
+
+    public function show(Request \$request)
+    {
+        \$params = \$request->all();
+        \$result = app(" . ucfirst($this->table_name) . "Repository::class)->getShow(\$request->id, \$params);;
+        return view('admin." . $this->table_name . ".show', compact('result'));
+    }
+
+    public function store(Request \$request)
+    {
+        \$params = \$request->all();
+        \$data = app(" . ucfirst($this->table_name) . "Repository::class)->setCreateUpdateParams(\$params);
+
+        DB::beginTransaction();
+        try {
+            \$id = DB::table('" . $this->table_name . "')->insertGetId(\$data);
+            DB::commit();
+            return jsonSuccess();
+        } catch (\Throwable \$th) {
+            DB::rollBack();
+            return jsonFailed(\$th->getMessage());
+        }
+    }
+
+    public function update(Request \$request)
+    {
+        \$params = \$request->all();
+        \$result = DB::table('" . $this->table_name . "')->where(['id' => \$request->id])->where('status', '<>', 99)->first();
+        if (empty(\$result)) return arrayFailed('内容不存在');
+
+        \$data = app(" . ucfirst($this->table_name) . "Repository::class)->setCreateUpdateParams(\$params);
+
+        DB::beginTransaction();
+        try {
+            DB::table('" . $this->table_name . "')->where('id', \$result->id)->update(\$data);
+            DB::commit();
+            return jsonSuccess();
+        } catch (\Throwable \$th) {
+            DB::rollBack();
+            return jsonFailed(\$th->getMessage());
+        }
+    }
+
+    public function delete(Request \$request)
+    {
+        \$result = DB::table('" . $this->table_name . "')->where(['id' => \$request->id])->where('status', '<>', 99)->first();
+        if (empty(\$result)) return arrayFailed('内容不存在');
+        DB::table('" . $this->table_name . "')->where(['id' => \$result->id])->update(['status' => 99]);
+        return jsonSuccess();
+    }
+}";
+    }
+
+        fwrite($myFile, $content);
+        fclose($myFile);
+    }
+
+    // 创建仓库
+    public function genRepository()
+    {
+        $path = app_path() . '/Repositorys/';
+
+        if (in_array($this->route, $this->own)) {
+            if (!empty($this->route)) $path .= $this->route . '/';
+        }
+
+        $path .= ucfirst($this->table_name) . 'Repository.php';
+
+        $path = str_replace('\\', '/', $path);
+
+        //if (file_exists($path)) dd('文件已存在: '. $path);
+
+        $myFile = fopen($path, 'w+');
+
+        $content = "<?php
+";
+
+    if (in_array($this->route, $this->own)) {
+        $content .= "
+namespace App\Repositorys\\" . $this->route . ";
+";
+    } else {
+        $content .= "
+namespace App\Repositorys;
+";
+    }
+
+    $content .= "
+use DB;
+
+class " . ucfirst($this->table_name) . "Repository
+{
+    public function getList(\$params = [], \$type = 'paginate', \$limit = 15)
+    {
+        \$select = ['" . $this->table_name . ".*'];
+        \$query = DB::table('" . $this->table_name . "');
+        \$query->select(\$select);
+        \$this->setParams(\$query, \$params);
+
+        if (\$type == 'paginate') {
+            \$results = \$query->paginate(\$limit);
+            \$ids = array_column(\$results->items(), 'id');
+        } else {
+            if (\$limit > 0 ) \$query->limit(\$limit);
+            \$results = \$query->get()->toArray();
+            \$ids = array_column(\$results, 'id');
+        }
+
+        foreach (\$results as \$key => \$value) {
+            \$results[\$key]->cover = !empty(\$value->cover) ? fileView(\$value->cover) : Config('common.image." . $this->table_name . "_cover');
+            \$results[\$key]->status_show = Config('common." . $this->table_name . ".status')[\$value->status];
+        }
+
+        return \$results;
+    }
+
+    private function setParams(\$query, \$params = [])
+    {
+        \$query->where('" . $this->table_name . ".status', '<>', 99);
+
+        if (isset(\$params['user_id']) && !empty(\$params['user_id'])) {
+            \$query->where('" . $this->table_name . ".user_id', \$params['user_id']);
+        }
+
+        if (isset(\$params['id']) && !empty(\$params['id'])) {
+            \$query->where('" . $this->table_name . ".id', \$params['id']);
+        }
+
+        if (isset(\$params['k']) && !empty(\$params['k'])) {
+            \$query->where('" . $this->table_name . ".content', 'like', \"%\" . \$params['k'] . \"%\");
+        }
+
+        \$query->orderBy('" . $this->table_name . ".id', 'desc');
+    }
+
+    public function getShow(\$id = '', \$params = [])
+    {
+        \$select = ['" . $this->table_name . ".*'];
+        \$query = DB::table('" . $this->table_name . "');
+        \$query->select(\$select);
+
+        if (\$id != '') {
+            \$query->where('" . $this->table_name . ".id', \$id);
+        }
+
+        if (isset(\$params['status']) && !empty(\$params['status'])) {
+            \$query->where('" . $this->table_name . ".status', \$params['status']);
+        }
+
+        \$result = \$query->first();
+        if (empty(\$result)) return \$result;
+
+        \$result->cover = !empty(\$result->cover) ? fileView(\$result->cover) : Config('common.image." . $this->table_name . "_cover');
+        \$result->status_show = Config('common." . $this->table_name . ".status')[\$result->status];
+
+        return \$result;
+    }
+
+    public function setCreateUpdateParams(\$params = [])
+    {
+        \$data = [];
+";
+
+        foreach ($this->table_columns as $key => $value) {
+            $content .= "        if (isset(\$params['" . $value . "'])) \$data['" . $value . "'] = \$params['" . $value . "'];\n";
+        }
+
+        $content .= "        return \$data;
+    }
+}";
+
+        fwrite($myFile, $content);
+        fclose($myFile);
+    }
+}
