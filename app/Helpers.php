@@ -31,7 +31,8 @@ function getLoginUser()
         'user.password',
         'user.realname_auth',
         'user.company_auth',
-        'user.city_name'
+        'user.city_name',
+        'user.description',
     ];
     $user = DB::table('user')
         ->select($select)

@@ -78,6 +78,8 @@ class ProductRepository
 
         $id = $product_sku->product_id;
         $query = DB::table('product');
+        $query->select(['product.*', 'product_category.name as category_name']);
+        $query->leftJoin('product_category', 'product_category.id', 'product.category_id');
         $query->where('product.id', $id);
         if (isset($params['status']) && !empty($params['status'])) {
             $query->where('product.status', $params['status']);
@@ -85,6 +87,7 @@ class ProductRepository
         $product = $query->first();
         if (empty($product)) return null;
 
+        $product->full_category_name = $this->getFullCategoryName($product->category_id);
         $product->cover = !empty($product->cover) ? fileView($product->cover) : Config('common.image.product_cover');
         $preg = "/<img(.*?)src=\"(.*?)\"(.*?)>/is";
         if (preg_match_all($preg, $product->content, $matches)) {

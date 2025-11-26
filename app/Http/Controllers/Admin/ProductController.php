@@ -621,7 +621,7 @@ class ProductController extends BaseController
             $query->where('product_specification_group.name', 'like', "%" . $params['k'] . "%");
         }
         $query->where('product_specification_group.status', '<>', 99);
-        $query->orderBy('product_specification_group.sort', 'desc');
+        $query->orderBy('product_specification_group.sort', 'desc')->orderBy('product_specification_group.id', 'desc');
         $groups = $query->paginate();
         $group_ids = array_column($groups->items(), 'id');
 
@@ -719,7 +719,7 @@ class ProductController extends BaseController
         }
 
         $query->where('product_specification.status', '<>', 99);
-        $query->orderBy('product_specification.sort', 'desc')->orderBy('product_specification.id', 'asc');
+        $query->orderBy('product_specification.sort', 'desc')->orderBy('product_specification.id', 'desc');
         $specifications = $query->paginate();
 
         $specification_ids = array_column($specifications->items(), 'id');
@@ -895,7 +895,7 @@ class ProductController extends BaseController
             $query->where('product_attribute_group.name', 'like', "%" . $params['k'] . "%");
         }
         $query->where('product_attribute_group.status', '<>', 99);
-        $query->orderBy('product_attribute_group.sort', 'desc');
+        $query->orderBy('product_attribute_group.sort', 'desc')->orderBy('product_attribute_group.id', 'desc');
         $groups = $query->paginate();
         $group_ids = array_column($groups->items(), 'id');
 
@@ -993,7 +993,7 @@ class ProductController extends BaseController
         }
 
         $query->where('product_attribute.status', '<>', 99);
-        $query->orderBy('product_attribute.sort', 'desc')->orderBy('product_attribute.id', 'asc');
+        $query->orderBy('product_attribute.sort', 'desc')->orderBy('product_attribute.id', 'desc');
         $attributes = $query->paginate();
 
         $attribute_ids = array_column($attributes->items(), 'id');

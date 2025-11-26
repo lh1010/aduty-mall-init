@@ -86,6 +86,9 @@ Route::group([
     Route::post('addCart', 'ProductController@addCart');
     Route::post('deleteCart', 'ProductController@deleteCart');
     Route::post('selectCart', 'ProductController@selectCart');
+    Route::post('getCartCount', 'ProductController@getCartCount');
+    Route::post('setCartSelected', 'ProductController@setCartSelected');
+    Route::post('collect', 'ProductController@collect');
 });
 
 Route::group([

@@ -87,7 +87,11 @@ html, body {
     </div>
     <div class="abox">
       <div class="item">暂不下载，访问H5</div>
-      <div class="item"><a href="{{Config('common.app_url')}}/h5">{{Config('common.app_url')}}/h5</a></div>
+      <div class="item"><a href="{{Config('common.app_url')}}/h5" target="_blank">{{Config('common.app_url')}}/h5</a></div>
+    </div>
+    <div class="abox">
+      <div class="item">访问电脑端</div>
+      <div class="item"><a href="{{Config('common.app_url')}}" target="_blank">{{Config('common.app_url')}}</a></div>
     </div>
     <div class="bbox">平台内容均为演示之用，不构成实际服务或产品承诺</div>
   </div>

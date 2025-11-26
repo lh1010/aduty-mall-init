@@ -71,7 +71,7 @@ class OrderController extends BaseController
         if ($checkoutDataRes['code'] != 200) return $res;
         $checkoutData = $checkoutDataRes['data'];
         $products = $checkoutData['products'] ?? [];
-        $address = $params['address'] ?? [];
+        $address = $checkoutData['address'] ?? [];
         $totalData = $checkoutData['totalData'] ?? [];
 
         DB::beginTransaction();
@@ -79,12 +79,12 @@ class OrderController extends BaseController
             // 订单数据
             $data_order = [];
             $data_order['user_id'] = $user->id;
-            $data_order['name'] = $checkoutData['address']['name'];
-            $data_order['phone'] = $checkoutData['address']['phone'];
-            $data_order['province_name'] = $checkoutData['address']['province_name'];
-            $data_order['city_name'] = $checkoutData['address']['city_name'];
-            $data_order['district_name'] = $checkoutData['address']['district_name'];
-            $data_order['detailed_address'] = $checkoutData['address']['detailed_address'];
+            $data_order['name'] = $address['name'];
+            $data_order['phone'] = $address['phone'];
+            $data_order['province_name'] = $address['province_name'];
+            $data_order['city_name'] = $address['city_name'];
+            $data_order['district_name'] = $address['district_name'];
+            $data_order['detailed_address'] = $address['detailed_address'];
             $data_order['product_total_price'] = $totalData['product_total_price'];
             $data_order['total_price'] = $totalData['total_price'];
             $order_id = DB::table('order')->insertGetId($data_order);

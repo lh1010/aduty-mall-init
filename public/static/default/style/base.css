@@ -1,0 +1,121 @@
+* {
+	outline: none;
+	margin: 0;
+	padding: 0;
+}
+html, body {
+  min-width: 1200px;
+	background-color: #F5F5F5 !important;
+	height: 100%;
+	font: 14px Arial, Helvetica, sans-serif !important;
+  color: #333;
+}
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+a {
+	color: #333;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none !important;
+  color: #ff6131;
+}
+a:link {
+	text-decoration: none !important;
+}
+a:visited {
+	text-decoration: none !important;
+}
+ul, ol{
+	list-style-type: none;
+	padding-left: 0;
+	margin-bottom: 0;
+}
+.none {
+	display: none;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'iconfont';  /* Project id 4050485 */
+  src: url('//at.alicdn.com/t/c/font_4050485_phgkos1xs6.woff2?t=1763787977715') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4050485_phgkos1xs6.woff?t=1763787977715') format('woff'),
+       url('//at.alicdn.com/t/c/font_4050485_phgkos1xs6.ttf?t=1763787977715') format('truetype');
+}
+
+.color {
+	color: #0d6efd;
+}
+.text-primary {
+	color: #0d6efd;
+}
+.text-danger {
+  color: #dc3545;
+}
+.text-success {
+	color: #198754;
+}
+.text-warning {
+	color: #FFB800;
+}
+.text-info {
+	color: #0dcaf0;
+}
+.text-price {
+	color: #ff0000;
+}
+
+i, em {
+  font-style: normal;
+}
+input, button {
+	overflow: visible;
+	vertical-align: middle;
+	outline: none;
+	border: 0;
+}
+button,
+input[type="button"],
+input[type="submit"] {
+	line-height: normal !important;
+	cursor: pointer;
+}
+
+/* 重写layui部分组件 start */
+.layui-btn {
+	background-color: #ff6131;
+}
+.layui-btn-luck {
+	background-color: #ff6131;
+}
+.layui-border-luck {
+	background-color: transparent;
+	border-color: #ff6131!important;
+  color: #ff6131!important;
+}
+.layui-btn-primary {
+	background-color: #ff6131;
+	border-color: #ff6131;
+	color: #fff;
+}
+.layui-btn-primary:hover {
+	background-color: #ff6131;
+	border-color: #ff6131;
+	color: #fff;
+}
+.layui-btn-payment {
+	background-color: #d8b66c;
+}
+/* 重写layui部分组件 end */

@@ -14,6 +14,7 @@ class createOrder extends FormRequest
                 'required',
                 Rule::in(['cart', 'onekeybuy']),
             ],
+            'address_id' => 'required'
         ];
     }
 
@@ -22,6 +23,7 @@ class createOrder extends FormRequest
         return [
             'type.required' => '未知类型',
             'type.in' => '未知类型',
+            'address_id.required' => '请选择收货地址',
         ];
     }
 }

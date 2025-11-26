@@ -78,7 +78,7 @@ return [
     // 电脑网站设置
     'pc' => [
         'app_name' => isset($res['pc']['app_name']) ? $res['pc']['app_name'] : env('APP_NAME', ''),
-        'app_logo' => isset($res['pc']['app_logo']) ? $res['pc']['app_logo'] : '',
+        'app_logo' => isset($res['pc']['app_logo']) ? $res['pc']['app_logo'] : $app_url . '/static/default/images/logo.png',
         'app_version' => isset($res['pc']['app_version']) ? $res['pc']['app_version'] : '1.0.1',
         'index_title' => isset($res['pc']['index_title']) ? $res['pc']['index_title'] : env('APP_NAME', ''),
         'index_keywords' => isset($res['pc']['index_keywords']) ? $res['pc']['index_keywords'] : env('APP_NAME', ''),
@@ -101,7 +101,7 @@ return [
     'wxmp' => [
         'appid' => isset($res['wxmp']['appid']) ? $res['wxmp']['appid'] : '',
     	'secret' => isset($res['wxmp']['secret']) ? $res['wxmp']['secret'] : '',
-        'qrcode' => isset($res['wxmp']['qrcode']) ? $res['wxmp']['qrcode'] : '',
+        'qrcode' => isset($res['wxmp']['qrcode']) ? $res['wxmp']['qrcode'] : $app_url . '/static/default/images/wxmp_qrcode.jpg',
     ],
 
     /**

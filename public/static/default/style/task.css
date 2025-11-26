@@ -1,0 +1,397 @@
+.tasklist {
+  overflow: hidden;
+}
+.tasklist .left {
+  float: left;
+  width: 940px;
+}
+.tasklist .left .items {
+  background-color: #fff;
+}
+.tasklist .left .items .item {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+.tasklist .left .items .item:last-child {
+  border-bottom: none;
+}
+.tasklist .left .items .item_box {
+  display: flex;
+}
+.tasklist .left .items .item .da {
+  width: 570px;
+  margin-right: 40px;
+}
+.tasklist .left .items .item .da .btop {}
+.tasklist .left .items .item .da .price {
+  font-weight: 600;
+  margin-right: 3px;
+}
+.tasklist .left .items .item .da .title {
+  font-weight: 600;
+}
+.tasklist .left .items .item .da .types {
+  font-size: 12px;
+  color: #999;
+  margin-top: 10px;
+  display: flex;
+}
+.tasklist .left .items .item .da .types .types_item {
+  margin-right: 10px;
+}
+.tasklist .left .items .item .da .types .types_item:last-child {
+  margin-right: 0;
+}
+.tasklist .left .items .item .db {
+  width: 200px;
+  font-size: 12px;
+  color: #999;
+  margin-right: 10px;
+}
+.tasklist .left .items .item .db .db_item2 {
+  margin-top: 8px;
+}
+.tasklist .left .items .item .dc .layui-btn {
+  font-size: 12px;
+}
+.tasklist .right {
+  float: right;
+  width: 240px;
+}
+.tasklist .right .r_section {
+  background-color: #fff;
+  padding: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.tasklist .right .r_section .stitle {
+  margin-bottom: 20px;
+}
+.tasklist .right .r_section .stitle {
+  font-weight: 600;
+  letter-spacing: 2px;
+  position: relative;
+  padding-left: 14px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+.tasklist .right .r_section .stitle:after {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 5px;
+  height: 12px;
+  border-radius: 16px;
+  background: #0d6efd;
+  content: '';
+}
+.tasklist .right .r_section .items .item {
+  display: block;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.tasklist .right .r_section .items .item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.tasklist .right .r_section .items .item .price {
+  font-weight: 600;
+}
+.tasklist .right .r_section .items .item .title {
+  margin-top: 5px;
+}
+.condition {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.condition .c_group {
+  display: flex;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f5f5f5;
+  display: flex;
+}
+.condition .c_group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.condition .c_group .c_group_title {
+  width: 100px;
+}
+.condition .c_group .c_group_items {
+  margin-bottom: -14px;
+  margin-right: -20px;
+  width: 1060px;
+}
+.condition .c_group .c_group_items a {
+  color: #333;
+}
+.condition .c_group .c_group_items .span_item {
+  display: inline-block;
+  color: #666;
+  margin: 0 20px 14px 0;
+  color: #333;
+}
+.condition .c_group .c_group_items .span_item.on {
+  font-weight: 600;
+  color: #0d6efd;
+}
+.condition .c_group.city_box i:before {
+  content: '\e60c';
+  margin-left: 5px;
+  color: #666;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.taskshow {
+  overflow: hidden;
+}
+.taskshow .left {
+  float: left;
+  width: 940px;
+}
+.taskshow .left .maininfo {
+  background-color: #fff;
+  padding: 30px;
+}
+.taskshow .left .maininfo .title {
+  font-weight: 600;
+  font-size: 20px;
+}
+.taskshow .left .maininfo .title .text-price {
+  margin-right: 8px;
+}
+.taskshow .left .maininfo .types {
+  font-size: 12px;
+  color: #999;
+  margin-top: 10px;
+  display: flex;
+}
+.taskshow .left .maininfo .types .types_item {
+  margin-right: 10px;
+}
+.taskshow .left .maininfo .types .types_item:last-child {
+  margin-right: 0;
+}
+.taskshow .left .maininfo .content {
+  word-wrap: break-word;
+}
+.taskshow .left .maininfo .stitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.taskshow .bidbox {
+  padding: 30px;
+  background-color: #fff;
+  margin-top: 20px;
+  border: 1px solid #d4e7f6;
+}
+.taskshow .bidbox .bbox {
+  border: 1px solid #eee;
+  margin-bottom: 20px;
+}
+.taskshow .bidbox .bbox:last-child {
+  margin-bottom: 0;
+}
+.taskshow .bidbox .stitle {
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: #eee;
+  padding: 20px;
+}
+.taskshow .bidbox .bd {
+  padding: 20px;
+}
+.taskshow .bidbox .bd .msgbox {
+  margin-bottom: 20px;
+  color: #999;
+  font-size: 12px;
+}
+.taskshow .bidbox .bd .msgbox .msg {
+  margin-bottom: 5px;
+}
+.taskshow .bidbox .bd .msgbox .msg:last-child {
+  margin-bottom: 0;
+}
+.taskshow .bidbox .bd .msgbox .msg a {
+  color: #0d6efd;
+}
+.taskshow .bidbox .layui-btn {
+  font-size: 12px;
+}
+.taskshow .bidbox .items .item {
+  margin-bottom: 8px;
+}
+.taskshow .bidbox .items .item:last-child {
+  margin-bottom: 0;
+}
+.taskshow .bidbox .bidstatus {
+  text-align: center;
+  padding: 50px 0;
+}
+.taskshow .bidbox .bidstatus .dv1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.taskshow .bidbox .bidstatus .dv2 {
+  margin-bottom: 8px;
+  color: #999;
+}
+.taskshow .flowbox {
+  padding: 30px;
+  background-color: #fff;
+  margin-top: 20px;
+  border: 1px solid #d4e7f6;
+}
+.taskshow .flowbox .stitle {
+  font-weight: 600;
+  letter-spacing: 2px;
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 20px;
+}
+.taskshow .flowbox .stitle:after {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 5px;
+  height: 12px;
+  border-radius: 16px;
+  background: #0d6efd;
+  content: '';
+}
+.taskshow .flowbox .d1 {
+  font-weight: 600;
+  color: #666;
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+.taskshow .flowbox .d1:first-child {
+  margin-top: 0;
+}
+.taskshow .flowbox .d2 {
+  color: #666;
+  margin-top: 10px;
+  font-size: 12px;
+}
+.taskshow .right {
+  float: right;
+  width: 240px;
+}
+.taskshow .right .r_section {
+  background-color: #fff;
+  padding: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.taskshow .right .r_section .stitle {
+  margin-bottom: 20px;
+}
+.taskshow .right .r_section .stitle {
+  font-weight: 600;
+  letter-spacing: 2px;
+  position: relative;
+  padding-left: 14px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+.taskshow .right .r_section .stitle:after {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 5px;
+  height: 12px;
+  border-radius: 16px;
+  background: #0d6efd;
+  content: '';
+}
+.taskshow .right .r_section .items .item {
+  display: block;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.taskshow .right .r_section .items .item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.taskshow .right .r_section .items .item .price {
+  font-weight: 600;
+}
+.taskshow .right .r_section .items .item .title {
+  margin-top: 5px;
+}
+
+.publish .main {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+}
+.publish .main form {
+  width: 80%;
+}
+.publish .main .unify_box:first-child {
+  margin-top: 0;
+}
+.publish .main .unify_box {
+  margin-top: 28px;
+}
+.publish .upload_images .items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -10px;
+}
+.publish .upload_images .image {
+  border: 1px solid #eee;
+  height: 85px;
+  width: 85px;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  padding: 3px;
+}
+.publish .upload_images .image.upload {
+  background: url(/static/default/images/icon_upload.png) no-repeat;
+  background-size: 50% 50%;
+  background-position: center;
+  cursor: pointer;
+}
+.publish .upload_images .image .close {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  z-index: 99;
+  cursor: pointer;
+}
+.publish .upload_images .image .close::after {
+  content: "\e604";
+  font-size: 1rem;
+  color: red;
+}
+.publish .upload_images .image img {
+  max-width: 90%;
+  max-height: 90%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.publish .upload_images.group_qrcode .image {
+  width: 120px;
+  height: 120px;
+}

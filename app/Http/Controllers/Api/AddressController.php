@@ -38,6 +38,9 @@ class AddressController extends BaseController
         if (count($addresses) >= 8) return jsonFailed('最多只能保存8条地址');
         $params = $request->all();
         $params['user_id'] = $user->id;
+        $params['province_name'] = DB::table('city')->where('id', $params['province_id'])->value('name');
+        $params['city_name'] = DB::table('city')->where('id', $params['city_id'])->value('name');
+        $params['district_name'] = DB::table('city')->where('id', $params['district_id'])->value('name');
         $data = app(AddressRepository::class)->setStoreUpdateParams($params);
         if ($data['default'] == 1) {
             DB::table('user_address')->where('user_id', $user->id)->update(['default' => 0]);

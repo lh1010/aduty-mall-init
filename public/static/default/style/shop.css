@@ -1,0 +1,289 @@
+.shop_index {
+	overflow: hidden;
+}
+.shop_index .topbanner {
+	margin-top: 20px;
+}
+.shop_index .topbanner img {
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+  vertical-align: top;
+  object-fit: cover;
+}
+.shop_index .menus {
+	height: 50px;
+	line-height: 50px;
+	background-color: #fff;
+	width: 100%;
+	margin-top: 20px;
+}
+.shop_index .menus .item {
+	padding: 0 20px;
+}
+.shop_index .menus .item.on {
+	color: #0d6efd;
+	font-weight: 600;
+}
+.shop_index .main {
+	margin-top: 20px;
+}
+.shop_index .left {
+	width: 240px;
+	float: left;
+}
+.shop_index .right {
+  width: 940px;
+  float: right;
+}
+.shop_index .shopbox {
+	text-align: center;
+	background-color: #fff;
+	padding: 20px;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.shop_index .shopbox .avatar {
+  width: 85px;
+  height: 85px;
+  display: inline-block;
+  padding-top: 5px;
+}
+.shop_index .shopbox .avatar img {
+	width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  vertical-align: top;
+  object-fit: cover;
+  border: 1px solid #eee;
+}
+.shop_index .shopbox .name {
+	margin-top: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.shop_index .shopbox .type {
+  text-align: left;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #F5F5F5;
+  font-size: 12px;
+  margin-bottom: -6px;
+}
+.shop_index .shopbox .type li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.shop_index .shopbox .type li span.first {
+  display: inline-block;
+  width: 62px;
+}
+.shop_index .shopbox .type2 .title {
+	font-weight: 600;
+}
+.shop_index .shopbox .type2 li span.first {
+	width: 40px;
+}
+.shop_index .shopbox .type2 .title i {
+	margin-right: 6px;
+}
+.shop_index .shopbox .actions {
+	margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #F5F5F5;
+}
+.shop_index .shopbox .actions a {
+	width: 100%;
+	height: 28px;
+	line-height: 28px;
+  border: #e5e5e5 solid 1px;
+  display: inline-block;
+  font-size: 12px;
+}
+.shop_index .right .pagebox {
+	background-color: #fff;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+.shop_index .right .pagebox .stitle {
+	font-weight: 600;
+	margin-bottom: 20px;
+}
+.shop_index .right .pagebox .stitle .more {
+	float: right;
+	font-size: 12px;
+	font-weight: 400;
+	color: #999;
+}
+
+.prolist .items {
+	margin-bottom: -20px;
+}
+.prolist .items .item {
+	background-color: #fff;
+	width: 207px;
+	margin-bottom: 20px;
+  transition: all .3s;
+  float: left;
+  margin-right: 20px;
+  border: 1px solid #f0f0f0;
+}
+.prolist .items .item:hover {
+	box-shadow: 0 4px 8px rgba(3, 27, 78, .12);
+}
+.prolist .items .item:nth-child(4n) {
+	margin-right: 0;
+}
+.prolist .items .item_box {
+	overflow: hidden;
+	position: relative;
+}
+.prolist .items .cover {
+	position: relative;
+  display: block;
+  width: 100%;
+  height: 207px;
+}
+.prolist .items .cover img {
+	width: 100%;
+  height: 100%;
+  vertical-align: top;
+  object-fit: cover;
+}
+.prolist .items .con {
+	padding: 10px 10px 14px 10px;
+}
+.prolist .items .title {
+  width: 100%;
+  height: 38px;
+  overflow: hidden;
+  display: block;
+  font-weight: 600;
+}
+.prolist .items .price {
+	margin-top: 10px;
+}
+.prolist .items .price em {
+	margin-right: 3px;
+}
+.prolist .items .shop {
+	margin-top: 8px;
+	color: #999;
+	font-size: 12px;
+}
+.prolist .page {
+	margin-top: 20px;
+}
+
+
+
+.shoplist {
+	margin-top: 20px;
+}
+.shoplist .items {
+	margin-bottom: -20px;
+}
+.shoplist .items .item {
+	background-color: #fff;
+	width: 222px;
+	margin-bottom: 20px;
+  transition: all .3s;
+  float: left;
+  margin-right: 20px;
+  border: 1px solid #f0f0f0;
+}
+.shoplist .items .item:hover {
+	box-shadow: 0 4px 8px rgba(3, 27, 78, .12);
+}
+.shoplist .items .item:nth-child(5n) {
+	margin-right: 0;
+}
+.shoplist .items .item_box {
+	overflow: hidden;
+	position: relative;
+	padding: 14px;
+}
+.shoplist .items .cover {
+	position: relative;
+  display: block;
+  width: 100%;
+  height: 194px;
+}
+.shoplist .items .cover img {
+	width: 100%;
+  height: 100%;
+  vertical-align: top;
+  object-fit: cover;
+}
+.shoplist .items .name {
+  width: 100%;
+  overflow: hidden;
+  display: block;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 12px;
+  white-space: nowrap; 
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+.shoplist .items .description {
+	font-size: 12px;
+	color: #999;
+	margin-top: 8px;
+	text-align: center;
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+.shoplist .items .item_foot {
+	border-top: 1px solid #eee;
+	margin-top: 14px;
+	padding-top: 14px;
+	font-size: 12px;
+}
+.shoplist .items .item_foot .d {
+  width: 48%;
+  border-right: 1px solid #eee;
+  display: inline-block;
+}
+.shoplist .items .item_foot .d2 {
+	border-right: none;
+}
+.shoplist .items .item_foot .d em {
+  display: block;
+  text-align: center;
+  color: #333;
+}
+.shoplist .items .item_foot .d i {
+  display: block;
+  text-align: center;
+  color: #999;
+  margin-top: 10px;
+}
+
+.shopshow .top {
+	width: 100%;
+	text-align: center;
+}
+.shopshow .top .cover {
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.shopshow .top .cover img {
+	width: 100%;
+  height: 100%;
+  vertical-align: top;
+  object-fit: cover;
+}
+.shopshow .top .name {
+	text-align: center;
+  margin-top: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}

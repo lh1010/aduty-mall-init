@@ -117,8 +117,12 @@ class OrderRepository
         $products = [];
 
         // 购买的商品
-        if ($type == 'cart') $res = $this->getCartData($user, ['selected' => 1]);
-        if ($type == 'onekeybuy') $res = $this->getOneKeyBuyData($user, $params);
+        if ($type == 'cart') {
+            $res = $this->getCartData($user, ['selected' => 1]);
+        }
+        if ($type == 'onekeybuy') {
+            $res = $this->getOneKeyBuyData($user, $params);
+        }
         $products = $res['products'];
         if (empty($products)) return arrayFailed('商品不存在');
         $data['products'] = $products;
@@ -133,6 +137,7 @@ class OrderRepository
             }
         }
         $data['address'] = $address;
+        $data['addresses'] = DB::table('user_address')->where(['user_id' => $user->id])->orderBy('default', 'desc')->orderBy('id', 'asc')->get()->toArray();
 
         // 合计
         $totalData = [

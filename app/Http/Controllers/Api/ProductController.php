@@ -14,7 +14,8 @@ class ProductController extends BaseController
             'getList',
             'getShow',
             'getCategorys',
-            'getCategory'
+            'getCategory',
+            'getCartCount',
         ]);
     }
 
@@ -33,10 +34,20 @@ class ProductController extends BaseController
 
     public function getShow(Request $request)
     {
+        $loginUser = getLoginUser();
         $sku = $request->sku;
         $params = $request->all();
         $params['status'] = 1;
         $product = app(ProductRepository::class)->getShow($sku, $params);
+
+        $product->collect_status = 0;
+        if (!empty($loginUser)) {
+            $collect = DB::table('user_collect_product')->where(['user_id' => $loginUser->id, 'sku' => $sku])->first();
+            if (!empty($collect)) {
+                $product->collect_status = 1;
+            }
+        }
+
         return jsonSuccess($product);
     }
 
@@ -78,18 +89,20 @@ class ProductController extends BaseController
 
     public function addCart(Request $request)
     {
-        $product_sku = DB::table('product_sku')->where('sku', $request->sku)->first();
+        $sku = $request->input('sku', '');
+        $count = $request->input('count', 1);
+        $product_sku = DB::table('product_sku')->where('sku', $sku)->first();
         if (empty($product_sku)) return jsonFailed('该商品已下架');
         $user = $request->get('user');
-        $cart = DB::table('cart')->where('sku', $request->sku)->where('user_id', $user->id)->first();
+        $cart = DB::table('cart')->where('sku', $sku)->where('user_id', $user->id)->first();
         if (!empty($cart)) {
-            DB::table('cart')->where('id', $cart->id)->increment('count', $request->count);
+            DB::table('cart')->where('id', $cart->id)->increment('count', $count);
         } else {
             DB::table('cart')->insert([
                 'user_id' => $user->id,
                 'product_id' => $product_sku->product_id,
-                'sku' => $product_sku->sku,
-                'count' => $request->count
+                'sku' => $sku,
+                'count' => $count
             ]);
         }
         return jsonSuccess([], 200, '已添加至购物车');
@@ -110,5 +123,39 @@ class ProductController extends BaseController
         DB::table('cart')->where('user_id', $user->id)->whereIn('sku', $skus)->update(['selected' => 1]);
         DB::table('cart')->where('user_id', $user->id)->whereNotIn('sku', $skus)->update(['selected' => 0]);
         return jsonSuccess();
+    }
+
+    public function getCartCount(Request $request)
+    {
+        $count = 0;
+        $user = getLoginUser();
+        if (!empty($user)) {
+            $count = DB::table('cart')->where('user_id', $user->id)->count();
+        }
+        return jsonSuccess($count);
+    }
+
+    public function setCartSelected(Request $request)
+    {
+        $user = $request->get('user');
+        $skus = explode(',', $request->skus);
+        DB::table('cart')->where('user_id', $user->id)->whereIn('sku', $skus)->update(['selected' => 1]);
+        DB::table('cart')->where('user_id', $user->id)->whereNotIn('sku', $skus)->update(['selected' => 0]);
+        return jsonSuccess();
+    }
+
+    public function collect(Request $request)
+    {
+        $loginUser = $request->get('user');
+        $res = DB::table('user_collect_product')->where(['user_id' => $loginUser->id, 'sku' => $request->sku])->first();
+        $collect = 0;
+        if (!empty($res)) {
+            DB::table('user_collect_product')->where(['user_id' => $loginUser->id, 'sku' => $request->sku])->delete();
+            $collect = 0;
+        } else {
+            DB::table('user_collect_product')->insert(['user_id' => $loginUser->id, 'sku' => $request->sku]);
+            $collect = 1;
+        }
+        return jsonSuccess(['collect' => $collect]);
     }
 }
