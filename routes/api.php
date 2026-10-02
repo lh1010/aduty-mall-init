@@ -15,6 +15,7 @@ Route::group([
     Route::post('qiandao', 'AccountController@qiandao');
 
     Route::post('getLoginUser', 'AccountController@getLoginUser');
+    Route::post('getUser', 'AccountController@getUser');
     Route::post('getUserContact', 'AccountController@getUserContact');
 
     Route::post('updateUser', 'AccountController@updateUser');
@@ -44,8 +45,9 @@ Route::group([
     'prefix' => 'article'
 ], function () {
     Route::post('getCategory', 'ArticleController@getCategory');
-    Route::post('getArticlesPaginate', 'ArticleController@getArticlesPaginate');
-    Route::post('getArticle', 'ArticleController@getArticle');
+    Route::post('getList', 'ArticleController@getList');
+    Route::post('getShow', 'ArticleController@getShow');
+    Route::post('getHelpCategorys', 'ArticleController@getHelpCategorys');
 });
 
 Route::group([
@@ -63,10 +65,14 @@ Route::group([
 Route::group([
     'prefix' => 'common'
 ], function () {
+    Route::post('getMenus', 'CommonController@getMenus');
+    Route::post('getIndexSections', 'CommonController@getIndexSections');
+    Route::post('getHelps', 'CommonController@getHelps');
     Route::post('getCitys', 'CommonController@getCitys');
     Route::post('getCityList', 'CommonController@getCityList');
+    Route::post('getRegionOptions', 'CommonController@getRegionOptions');
     Route::post('getAdver', 'CommonController@getAdver');
-    Route::post('getConfig', 'CommonController@getConfig');
+    Route::match(['get', 'post'], 'getConfig', 'CommonController@getConfig');
     Route::post('versionUpdate', 'CommonController@versionUpdate');
 });
 
@@ -85,10 +91,13 @@ Route::group([
     Route::post('getCategory', 'ProductController@getCategory');
     Route::post('addCart', 'ProductController@addCart');
     Route::post('deleteCart', 'ProductController@deleteCart');
-    Route::post('selectCart', 'ProductController@selectCart');
     Route::post('getCartCount', 'ProductController@getCartCount');
     Route::post('setCartSelected', 'ProductController@setCartSelected');
+    Route::post('setCartSelectedBatch', 'ProductController@setCartSelectedBatch');
     Route::post('collect', 'ProductController@collect');
+    Route::post('deleteCollect', 'ProductController@deleteCollect');
+    Route::post('getCollectProducts', 'ProductController@getCollectProducts');
+    Route::post('getNewProducts', 'ProductController@getNewProducts');
 });
 
 Route::group([
@@ -101,13 +110,14 @@ Route::group([
     Route::post('createOrder', 'OrderController@createOrder');
     Route::post('getOrderPayData', 'OrderController@getOrderPayData');
     Route::post('cancelOrder', 'OrderController@cancelOrder');
+    Route::post('receiveOrder', 'OrderController@receiveOrder');
 });
 
 Route::group([
     'prefix' => 'address'
 ], function () {
-    Route::post('getAddress', 'AddressController@getAddress');
-    Route::post('getAddresses', 'AddressController@getAddresses');
+    Route::post('getList', 'AddressController@getList');
+    Route::post('getShow', 'AddressController@getShow');
     Route::post('store', 'AddressController@store');
     Route::post('update', 'AddressController@update');
     Route::post('delete', 'AddressController@delete');

@@ -19,7 +19,7 @@ class AddressRepository
         if (isset($params['district_id'])) $data['district_id'] = $params['district_id'];
         if (isset($params['district_name'])) $data['district_name'] = $params['district_name'];
         if (isset($params['detailed_address'])) $data['detailed_address'] = $params['detailed_address'];
-        $data['default'] = isset($params['default']) && is_numeric($params['default']) ? $params['default'] : 0;
+        $data['default'] = isset($params['default']) && $params['default'] ? 1 : 0;
         return $data;
     }
 }

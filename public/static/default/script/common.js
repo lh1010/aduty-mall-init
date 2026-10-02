@@ -7,7 +7,7 @@ function getCartCount() {
     url: '/api/product/getCartCount',
     type: 'post',
     data: {
-      user_token: $('#user_token').val()
+      token: $('#token').val()
     },
     success: function(res) {
       $('#head_top_cart span').html(res.data);
@@ -23,12 +23,12 @@ function logout() {
 		url: '/api/account/logout',
     type: 'post',
     data: {
-      user_token: $('#user_token').val()
+      token: $('#token').val()
     },
 		success: function(res) {
       layer.close(load);
-			layer.msg('已安全退出...', {time: 1500}, function() { 
-				window.location.reload(); 
+			layer.msg('已安全退出...', {time: 1500}, function() {
+				window.location.reload();
 			});
 		}
 	})
@@ -108,7 +108,7 @@ function getUrlParam(param) {
 
 function removeUrlParam(params = []) {
   var url = window.location.href.split('?')[0] + '?';
-  
+
   var sPageURL = decodeURIComponent(window.location.search.substring(1));
   var sURLVariables = sPageURL != '' ? sPageURL.split('&') : [];
   var sParameterName;
@@ -173,7 +173,7 @@ function addCart(sku) {
     url: '/api/product/addCart',
     type: 'post',
     data: {
-      user_token: $('#user_token').val(),
+      token: $('#token').val(),
       sku: sku,
     },
     success: function(data) {
@@ -193,14 +193,14 @@ function addCart(sku) {
   })
 }
 
-function collectProduct(sku) {
+function collectProduct(id) {
   var load = layer.load();
   $.ajax({
     url: '/api/product/collect',
     type: 'post',
     data: {
-      user_token: $('#user_token').val(),
-      sku: sku,
+      token: $('#token').val(),
+      id: id,
     },
     success: function(res) {
       layer.close(load);
@@ -217,7 +217,7 @@ function collectProduct(sku) {
   })
 }
 
-function deleteCollectProduct(sku) {
+function deleteCollectProduct(id) {
   var layer_confirm =  layer.confirm('确认取消？', function() {
     layer.close(layer_confirm);
     var load = layer.load();
@@ -225,8 +225,8 @@ function deleteCollectProduct(sku) {
       url: '/api/product/collect',
       type: 'post',
       data: {
-        user_token: $('#user_token').val(),
-        sku: sku,
+        token: $('#token').val(),
+        id: id,
       },
       success: function(res) {
         layer.close(load);
@@ -250,7 +250,7 @@ function collectShop(id) {
     url: '/api/shop/collect',
     type: 'post',
     data: {
-      user_token: $('#user_token').val(),
+      token: $('#token').val(),
       id: id,
     },
     success: function(res) {
@@ -276,7 +276,7 @@ function deleteCollectShop(id) {
       url: '/api/shop/deleteCollect',
       type: 'post',
       data: {
-        user_token: $('#user_token').val(),
+        token: $('#token').val(),
         id: id,
       },
       success: function(res) {
@@ -297,7 +297,7 @@ function deleteCollectShop(id) {
 
 function createOrder(type) {
   var data = {
-    user_token: $('#user_token').val(),
+    token: $('#token').val(),
     type: type,
   };
   if (type == 'onekeybuy') {
@@ -335,7 +335,7 @@ function getContact_user(user_id) {
     url: '/api/user/getContact',
     type: 'post',
     data: {
-      user_token: $('#user_token').val(),
+      token: $('#token').val(),
       user_id: user_id,
     },
     success: function(res) {
@@ -349,7 +349,7 @@ function getContact_user(user_id) {
         layer.open({
           title: '用户联系方式',
           closeBtn: 0,
-          content: str, 
+          content: str,
           btn: ['我知道了'],
           yes: function(index, layero){
             layer.close(index);
@@ -372,7 +372,7 @@ function getContact_shop(shop_id) {
     url: '/api/shop/getContact',
     type: 'post',
     data: {
-      user_token: $('#user_token').val(),
+      token: $('#token').val(),
       shop_id: shop_id,
     },
     success: function(res) {
@@ -386,7 +386,7 @@ function getContact_shop(shop_id) {
         layer.open({
           title: '店铺联系方式',
           closeBtn: 0,
-          content: str, 
+          content: str,
           btn: ['我知道了'],
           yes: function(index, layero){
             layer.close(index);

@@ -10,10 +10,10 @@ function luckFU() {
 	if (!thisNode.hasClass('luckFU')) thisNode = $(event.target).parent('.luckFU');
 	var url = thisNode.attr('data-url');
 	var name = thisNode.attr('data-name') == undefined ? 'file' : thisNode.attr('data-name');
-	var user_token = $('#user_token').val();
+	var token = $('#token').val();
   var str = '';
 	str += '<form action="' + url + '" method="post" id="luckFU_form" enctype="multipart/form-data" style="display:none" >'
-	str += '<input type="hidden" name="user_token" value="' + user_token + '" />'
+	str += '<input type="hidden" name="token" value="' + token + '" />'
 	str += '<input type="file" name="file" id="luckFU_file" />'
 	str += '</form>'
 	$(document.body).append(str);

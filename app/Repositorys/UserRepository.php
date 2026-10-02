@@ -69,6 +69,7 @@ class UserRepository
         if (isset($params['nickname']) && !empty($params['nickname'])) $data['nickname'] = $params['nickname'];
         if (isset($params['sex']) && !empty($params['sex'])) $data['sex'] = $params['sex'];
         if (isset($params['city_id']) && !empty($params['city_id'])) $data['city_id'] = $params['city_id'];
+        if (isset($params['city_name']) && !empty($params['city_name'])) $data['city_name'] = $params['city_name'];
         if (isset($params['phone'])) $data['phone'] = $params['phone'];
         $data['avatar'] = '';
         if (isset($params['avatar']) && !empty($params['avatar']) && $params['avatar'] != Config('common.image.user_avatar')) {

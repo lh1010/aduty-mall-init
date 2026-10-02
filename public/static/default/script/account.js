@@ -53,7 +53,7 @@ function cancelOrder(order_id) {
       url: '/api/order/cancelOrder',
       type: 'post',
       data: {
-        user_token: $('#user_token').val(),
+        token: $('#token').val(),
         order_id: order_id,
       },
       success: function(res) {
@@ -84,7 +84,7 @@ function receiveOrder(order_id) {
       url: '/api/order/receiveOrder',
       type: 'post',
       data: {
-        user_token: $('#user_token').val(),
+        token: $('#token').val(),
         order_id: order_id
       },
       success: function(res) {

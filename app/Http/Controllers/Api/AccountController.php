@@ -52,6 +52,7 @@ class AccountController extends BaseController
 
     public function sendCode(\App\Http\Requests\Account\sendCode $request)
     {
+        return jsonSuccess();
         $phone = $request->phone;
         $sms_code = DB::table('sms_code')->where(['phone' => $phone, 'is_used' => 0])->orderBy('created_at', 'desc')->first();
         if (!empty($sms_code)) {
@@ -76,10 +77,16 @@ class AccountController extends BaseController
         return jsonSuccess($user);
     }
 
+    public function getUser(Request $request)
+    {
+        $user = $request->get('user');
+        return jsonSuccess($user);
+    }
+
     public function logout(Request $request)
     {
         $user = getLoginUser();
-        DB::table('user_login_log')->where(['user_id' => $user->id, 'token' => $request->user_token])->update(['status' => 0]);
+        DB::table('user_login_log')->where(['user_id' => $user->id, 'token' => $request->token])->update(['status' => 0]);
         return jsonSuccess();
     }
 
@@ -157,7 +164,7 @@ class AccountController extends BaseController
                 ]);
             }
 
-            $return_data['user_token'] = app(AccountRepository::class)->loginSuccess($user_id);
+            $return_data['token'] = app(AccountRepository::class)->loginSuccess($user_id);
             DB::commit();
             return jsonSuccess($return_data);
         } catch (\Throwable $th) {
@@ -206,8 +213,9 @@ class AccountController extends BaseController
 
     public function getWalletLogsPaginate(Request $request)
     {
+        $page_size = $request->input('page_size', 10);
         $user = $request->get('user');
-        $user_wallet_logs = DB::table('user_wallet_log')->where('user_id', $user->id)->orderBy('id', 'desc')->paginate();
+        $user_wallet_logs = DB::table('user_wallet_log')->where('user_id', $user->id)->orderBy('id', 'desc')->paginate($page_size);
         return jsonSuccess($user_wallet_logs);
     }
 
@@ -217,6 +225,7 @@ class AccountController extends BaseController
         $withdrawal_logs = DB::table('user_wallet_withdrawal_log')->where('user_id', $user->id)->orderBy('id', 'desc')->paginate();
         foreach ($withdrawal_logs as $key => $value) {
             $withdrawal_logs[$key]->created_at = date('Y-m-d', strtotime($value->created_at));
+            $withdrawal_logs[$key]->status_show = Config('common.withdrawal.status')[$value->status] ?? '';
         }
         return jsonSuccess($withdrawal_logs);
     }

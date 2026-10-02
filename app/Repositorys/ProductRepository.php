@@ -6,14 +6,12 @@ use DB;
 
 class ProductRepository
 {
-    public function getList($params = [], $type = 'paginate', $limit = 16)
+    public function getList($params = [], $type = 'paginate', $limit = 15)
     {
         $select = ['product.*'];
         $query = DB::table('product');
         $query->select($select);
         $this->setParams($query, $params);
-        $query->where('product.status', '<>', 99);
-        $query->orderBy('product.created_at', 'desc');
         if ($type == 'paginate') {
             $products = $query->paginate($limit);
             $ids = array_column($products->items(), 'id');
@@ -23,7 +21,7 @@ class ProductRepository
             $ids = array_column($products, 'id');
         }
 
-        $product_skus = DB::table('product_sku')->whereIn('product_id', $ids)->get()->toArray();
+        $product_skus = DB::table('product_sku')->whereIn('product_id', $ids)->orderBy('price', 'asc')->get()->toArray();
         $skus = array_column($product_skus, 'sku');
         $product_to_specifications = DB::table('product_to_specification')->whereIn('sku', $skus)->get()->toArray();
         $array = [];
@@ -54,29 +52,57 @@ class ProductRepository
 
     public function setParams($query, $params = [])
     {
-        if (isset($params['k']) && !empty($params['k'])) {
+        $query->where('product.status', '<>', 99);
+
+        if (!empty($params['k'])) {
             $query->where('product.name', 'like', '%' . $params['k'] . '%');
         }
 
-        if (isset($params['category_id']) && !empty($params['category_id'])) {
+        if (!empty($params['category_id'])) {
             $query->where('product.category_id', $params['category_id']);
         }
 
-        if (isset($params['category_ids']) && !empty($params['category_ids'])) {
+        if (!empty($params['category_ids'])) {
             $query->whereIn('product.category_id', $params['category_ids']);
         }
 
-        if (isset($params['status']) && !empty($params['status'])) {
+        if (!empty($params['status'])) {
             $query->where('product.status', $params['status']);
         }
+
+        if (!empty($params['random'])) {
+            $query->inRandomOrder();
+        }
+
+        // 排序
+        if (isset($params['order'])) {
+            if ($params['order'] == '最新') {
+                $query->orderBy('product.created_at', 'desc');
+            }
+            $db_prefix = env('DB_PREFIX', '');
+            if ($params['order'] == '价格最低') {
+                $query->orderByRaw('(SELECT MIN(ps.price) FROM ' . $db_prefix . 'product_sku ps WHERE ps.product_id = ' . $db_prefix . 'product.id) asc');
+            }
+            if ($params['order'] == '价格最高') {
+                $query->orderByRaw('(SELECT MIN(ps.price) FROM ' . $db_prefix . 'product_sku ps WHERE ps.product_id = ' . $db_prefix . 'product.id) desc');
+            }
+            if ($params['order'] == '最新') {
+                $query->orderBy('product.created_at', 'desc');
+            }
+        }
+
+        // 默认排序
+        $query->orderBy('product.created_at', 'desc');
     }
 
-    public function getShow($sku, $params = [])
+    /**
+     * 获取商品详情
+     * @param int $id 商品ID
+     * @param array $params 查询参数
+     * @return array|null
+     */
+    public function getShow($id, $params = [])
     {
-        $product_sku = DB::table('product_sku')->where('sku', $sku)->first();
-        if (empty($product_sku)) return null;
-
-        $id = $product_sku->product_id;
         $query = DB::table('product');
         $query->select(['product.*', 'product_category.name as category_name']);
         $query->leftJoin('product_category', 'product_category.id', 'product.category_id');
@@ -87,7 +113,7 @@ class ProductRepository
         $product = $query->first();
         if (empty($product)) return null;
 
-        $product->full_category_name = $this->getFullCategoryName($product->category_id);
+        $product->full_category_name = $this->getFullCategoryName($product->category_id); // 完整分类名称
         $product->cover = !empty($product->cover) ? fileView($product->cover) : Config('common.image.product_cover');
         $preg = "/<img(.*?)src=\"(.*?)\"(.*?)>/is";
         if (preg_match_all($preg, $product->content, $matches)) {
@@ -115,104 +141,149 @@ class ProductRepository
         $attributes = DB::table('product_to_attribute')->where('product_id', $id)->get()->toArray();
         $product->attributes = $attributes;
 
-        // 单规格
-        if ($product->specification_type == '单规格') {
-            $product_sku = DB::table('product_sku')->where('product_id', $id)->first();
-            $product_sku->cover = !empty($product_sku->cover) ? fileView($product_sku->cover) : Config('common.image.product_cover');
-            $product->sku = $product_sku;
+        // 所有sku 当前商品(spu)下的所有sku
+        $allSkus = DB::table('product_sku')->where('product_id', $id)->get()->keyBy('sku'); // 以sku为键，便于快速查找
+
+        // 获取该商品下所有规格关联记录 product_to_specification
+        $allSpecs = DB::table('product_to_specification')->where('product_id', $id)->get();
+
+        // 构建[sku->规格选项ID集合]的映射 用于快速匹配
+        $skuOptionMap = [];
+        foreach ($allSpecs as $spec) {
+            $skuOptionMap[$spec->sku][] = (int)$spec->specification_option_id;
         }
 
-        // 多规格
-        $product->specifications = [];
-        if ($product->specification_type == '多规格') {
-            // 当前sku信息
-            if (isset($params['sku']) && !empty($params['sku'])) {
-                $product_sku = DB::table('product_sku')->where('sku', $params['sku'])->first();
-            } else {
-                $product_skus = DB::table('product_sku')->where('product_id', $id)->get()->toArray();
-                $product_sku = $product_skus[0];
+        // 当前sku 优先使用传入的sku
+        if (!empty($params['sku']) && isset($allSkus[$params['sku']])) {
+            $currentSku = $allSkus[$params['sku']];
+        } else {
+            // 排序规则：有库存优先 → 价格低优先
+            $currentSku = $allSkus->sortBy(function ($sku) {
+                return [$sku->stock <= 0, $sku->price];
+            })->first();
+        }
+
+        // 当前选中的规格选项ID列表
+        $currentOptionIds = $skuOptionMap[$currentSku->sku] ?? [];
+
+        // 构建规格分组结构 按规格ID=specification_id分组
+        $grouped = [];
+        foreach ($allSpecs as $spec) {
+            $gid = $spec->specification_id;
+            if (!isset($grouped[$gid])) {
+                $grouped[$gid] = [
+                    'specification_id'   => $gid,
+                    'specification_name' => $spec->specification_name,
+                    'options'            => []
+                ];
             }
-            $product_sku->cover = !empty($product_sku->cover) ? fileView($product_sku->cover) : Config('common.image.product_cover');
-            // 当前sku下的销售规格
-            $current_specifications = DB::table('product_to_specification')->where('sku', $product_sku->sku)->get()->toArray();
-            $current_specification_ids = array_column($current_specifications, 'specification_id');
-            $current_specification_option_ids = array_column($current_specifications, 'specification_option_id');
-            $product_sku->specifications = $current_specifications;
-            $product->sku = $product_sku;
-            // 当前商品下的销售规格
-            $product_to_specifications = DB::table('product_to_specification')
-                ->select(['product_to_specification.*', 'product_sku.stock'])
-                ->leftJoin('product_sku', 'product_sku.sku', 'product_to_specification.sku')
-                ->where('product_to_specification.product_id', $id)
-                ->get()->toArray();
-            // 当前商品下的skus
-            $product_skus = DB::table('product_sku')->where('product_id', $id)->get()->toArray();
-            foreach ($product_skus as $key => $value) {
-                $product_skus[$key]->cover = !empty($value->cover) ? fileView($value->cover) : Config('common.image.product_cover');
+            // 去重：同一个规格选项可能出现在多个SKU中，但只需保留一个选项记录
+            $oid = $spec->specification_option_id;
+            if (!isset($grouped[$gid]['options'][$oid])) {
+                $grouped[$gid]['options'][$oid] = [
+                    'specification_option_id'   => $oid,
+                    'specification_option'      => $spec->specification_option,
+                    'specification_id'          => $gid,
+                    'specification_name'        => $spec->specification_name,
+                    'selected' => 0,
+                    'valid'    => 0,
+                    'sku'      => null,
+                    'stock'    => 0,
+                ];
             }
-            $array = [];
-            foreach ($product_to_specifications as $key => $value) {
-                $array[$value->sku][] = $value;
-            }
-            foreach ($product_skus as $key => $value) {
-                $product_skus[$key]->specifications = isset($array[$value->sku]) ? $array[$value->sku] : [];
-            }
-            $product->skus = $product_skus;
-            // 分配销售规格组
-            $skus = [];
-            foreach ($product_to_specifications as $key => $value) {
-                $skus[$value->sku][] = $value;
-            }
-            // 获取与当前销售规格有关联的sku
-            // 获取与当前销售规格有关联的商品关联规格ID
-            // 设置商品关联规格是否有效/可点击
-            $have_product_skus = [];
-            $have_product_to_specification_ids = [];
-            foreach ($product_to_specifications as $key => $value) {
-                if (count($current_specification_option_ids) > 1) {
-                    if (in_array($value->specification_option_id, $current_specification_option_ids)) {
-                        $current_sku_specification_option_ids = array_column($skus[$value->sku], 'specification_option_id');
-                        $the_same_date_count = array_intersect($current_sku_specification_option_ids, $current_specification_option_ids);
-                        if (count($the_same_date_count) >= count($current_specification_option_ids) - 1) {
-                            $have_product_skus[] = $value->sku;
-                            $have_product_to_specification_ids[] = $value->id;
+        }
+
+        // 遍历每个规格组中的每个选项，判断其[有效性]和[选中状态]
+        foreach ($grouped as &$group) {
+            $gid = $group['specification_id'];
+            foreach ($group['options'] as &$option) {
+                $oid = $option['specification_option_id'];
+                // 判断是否选中：当前sku包含该选项
+                if (in_array($oid, $currentOptionIds)) {
+                    $option['selected'] = 1;
+                }
+                // 判断是否有效(可点击)
+                // 存在至少一个sku，其规格选项集合包含[当前已选的所有选项(排除本组) + 当前选项]，且该sku库存 > 0
+                // 构建[假设已选]的选项ID数组：将当前选中选项中属于本组的全部去掉，再加入当前选项
+                $assumedSelected = [];
+                foreach ($currentOptionIds as $selectedId) {
+                    // 查找该选项属于哪个规格组
+                    $selectedSpecId = null;
+                    foreach ($grouped as $g) {
+                        if (isset($g['options'][$selectedId])) {
+                            $selectedSpecId = $g['specification_id'];
+                            break;
                         }
                     }
-                } else {
-                    $have_product_skus[] = $value->sku;
-                    $have_product_to_specification_ids[] = $value->id;
+                    // 如果属于本组则跳过
+                    if ($selectedSpecId == $gid) {
+                        continue;
+                    }
+                    $assumedSelected[] = $selectedId;
+                }
+                $assumedSelected[] = $oid; // 加入当前选项
+                // 遍历所有sku，检查是否存在一个sku包含全部$assumedSelected选项且库存>0
+                $valid = false;
+                $skuForOption = null;
+                $stockForOption = 0;
+                foreach ($skuOptionMap as $sku => $optionIds) {
+                    // 判断$assumedSelected是否被$optionIds完全包含 即交集等于$assumedSelected
+                    if (empty(array_diff($assumedSelected, $optionIds))) {
+                        $valid = true;
+                        $skuForOption = $sku;
+                        $stockForOption = $allSkus[$sku]->stock ?? 0;
+                        break;
+                    }
+                }
+                $option['valid'] = $valid ? 1 : 0;
+                if ($valid) {
+                    $option['sku'] = $skuForOption;
+                    $option['stock'] = $stockForOption;
                 }
             }
-            foreach ($product_to_specifications as $key => $value) {
-                $product_to_specifications[$key]->valid = 0;
-                if (in_array($value->sku, $have_product_skus)) {
-                    $product_to_specifications[$key]->valid = 1;
-                }
-            }
-            // 组装数据
-            $array = [];
-            foreach ($product_to_specifications as $key => $value) {
-                $array[$value->specification_id]['specification_id'] = $value->specification_id;
-                $array[$value->specification_id]['specification_name'] = $value->specification_name;
-                $array[$value->specification_id]['options'][$value->specification_option_id]['specification_option_id'] = $value->specification_option_id;
-                $array[$value->specification_id]['options'][$value->specification_option_id]['specification_option'] = $value->specification_option;
-                $array[$value->specification_id]['options'][$value->specification_option_id]['specification_id'] = $value->specification_id;
-                $array[$value->specification_id]['options'][$value->specification_option_id]['specification_name'] = $value->specification_name;
-                if ($value->valid == 1) {
-                    $array[$value->specification_id]['options'][$value->specification_option_id]['valid'] = $value->valid;
-                    $array[$value->specification_id]['options'][$value->specification_option_id]['sku'] = $value->sku;
-                    $array[$value->specification_id]['options'][$value->specification_option_id]['stock'] = $value->stock;
-                }
-                if ($value->sku == $product_sku->sku) {
-                    $array[$value->specification_id]['options'][$value->specification_option_id]['selected'] = 1;
-                }
-            }
-            foreach ($array as $key => $value) {
-                $array[$key]['options'] = array_values($value['options']);
-            }
-            $array = array_values($array);
-            $product->specifications = $array;
         }
+        unset($group, $option); // 解除引用
+
+        // 转换数据结构 将option从关联数组转为索引数组，便于前端循环
+        $specifications = [];
+        foreach ($grouped as $group) {
+            $group['options'] = array_values($group['options']);
+            $specifications[] = $group;
+        }
+
+        // 获取当前sku所关联的规格明细
+        $currentSpecs = DB::table('product_to_specification')
+            ->where('sku', $currentSku->sku)
+            ->get()
+            ->toArray();
+        $currentSku->specifications = $currentSpecs;
+
+        // 将当前sku和规格分组挂载到商品对象
+        $currentSku->cover = !empty($currentSku->cover) ? fileView($currentSku->cover) : Config('common.image.product_cover');
+        $product->sku = $currentSku;
+        $product->specifications = $specifications;
+
+        // skus收藏
+        $collectSkus = [];
+        $loginUser = getLoginUser();
+        if (!empty($loginUser)) {
+            $skus = $allSkus->pluck('sku')->toArray();
+            $collectSkus = DB::table('user_collect_product')->where('user_id', $loginUser->id)->whereIn('sku', $skus)->pluck('sku')->toArray();
+        }
+
+        // 构建前端需要的sku列表数据结构
+        $skuListForFrontend = [];
+        foreach ($allSkus as $key => $value) {
+            $skuListForFrontend[] = [
+                'sku'           => $key,
+                'price'         => $value->price,
+                'stock'         => $value->stock,
+                'cover'         => fileView($value->cover),
+                'option_ids'    => $skuOptionMap[$key] ?? [],
+                'collect_status'=> in_array($key, $collectSkus) ? 1 : 0,
+            ];
+        }
+        $product->skus = $skuListForFrontend;
 
         return $product;
     }

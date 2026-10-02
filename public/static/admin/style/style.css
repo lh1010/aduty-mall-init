@@ -16,7 +16,7 @@ ul {
 }
 ol, ul, dl {
   margin-top: 0;
-  margin-bottom: 0; 
+  margin-bottom: 0;
 }
 input, button, a.btn, .form-control, .form-select {
   outline: none !important;
@@ -526,7 +526,7 @@ a:visited {
   margin: auto;
 }
 .luckFU.uploaded {
-  background-size: 0%;
+  background-size: 0% !important;
 }
 .luckFU_remove {
   position: absolute;

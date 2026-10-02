@@ -38,9 +38,9 @@
 		      <label class="col-2 col-form-label text-end"><i class="iconfont iconfont-question" data-bs-toggle="tooltip" title="" data-bs-original-title="小程序LOGO，建议尺寸：200X58"></i> LOGO：</label>
 		      <div class="col-auto">
 		        @if(Config('common.wxapp.app_logo'))
-		        <div class="luckFU luckFU_3_6 uploaded" style="width: 120px; height: 60px;" data-name="wxapp[app_logo]" data-url="/api/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.wxapp.app_logo')}}"><input type="hidden" name="wxapp[app_logo]" value="{{Config('common.wxapp.app_logo')}}"></div>
+		        <div class="luckFU luckFU_3_6 uploaded" style="width: 120px; height: 60px;" data-name="wxapp[app_logo]" data-url="/admin/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.wxapp.app_logo')}}"><input type="hidden" name="wxapp[app_logo]" value="{{Config('common.wxapp.app_logo')}}"></div>
 		        @else
-		        <div class="luckFU luckFU_3_6" style="width: 120px; height: 60px;" data-name="wxapp[app_logo]" data-url="/api/upload">
+		        <div class="luckFU luckFU_3_6" style="width: 120px; height: 60px;" data-name="wxapp[app_logo]" data-url="/admin/upload">
 		          <input type="hidden" name="wxapp[app_logo]" value="">
 		        </div>
 		        @endif
@@ -56,9 +56,9 @@
 		      <label class="col-2 col-form-label text-end"><i class="iconfont iconfont-question" data-bs-toggle="tooltip" title="" data-bs-original-title="小程序二维码"></i> 二维码：</label>
 		      <div class="col-auto">
 		        @if(Config('common.wxapp.qrcode'))
-		        <div class="luckFU uploaded" style="width: 80px; height: 80px;" data-name="wxapp[qrcode]" data-url="/api/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.wxapp.qrcode')}}"><input type="hidden" name="wxapp[qrcode]" value="{{Config('common.wxapp.qrcode')}}"></div>
+		        <div class="luckFU uploaded" style="width: 80px; height: 80px;" data-name="wxapp[qrcode]" data-url="/admin/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.wxapp.qrcode')}}"><input type="hidden" name="wxapp[qrcode]" value="{{Config('common.wxapp.qrcode')}}"></div>
 		        @else
-		        <div class="luckFU" style="width: 80px; height: 80px;" data-name="wxapp[qrcode]" data-url="/api/upload">
+		        <div class="luckFU" style="width: 80px; height: 80px;" data-name="wxapp[qrcode]" data-url="/admin/upload">
 		          <input type="hidden" name="wxapp[qrcode]" value="">
 		        </div>
 		        @endif
@@ -110,6 +110,6 @@ $("#form").validate({
       });
     });
   }
-});  
+});
 </script>
 @endsection

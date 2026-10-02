@@ -32,7 +32,7 @@ return [
 
     // 图片信息
     'image' => [
-        'loading' => $app_url . '/static/images/loading/8.gif',
+        'loading' => $app_url . '/static/images/loading.gif',
         'lazy' => $app_url . '/static/images/lazy.png',
         'default' => $app_url . '/static/default/images/default.png',
         'noresult' => $app_url . '/static/images/noresult.png',
@@ -44,16 +44,16 @@ return [
     // 安卓APP
     'android' => [
         'new_version' => [
-            'app_version' => '1.0.1',
+            'app_version' => '2.0.1',
             'app_security' => 'ZGIzN^WMzZG!VkY@2FkMDl@mNWIz!ZDR#lYTczOGFjZDQ5M2Q^',
-            'download_url' => $app_url . '/app/1.0.1.006.apk',
+            'download_url' => $app_url . '/app/2.0.1.001.apk',
         ],
         'version_list' => [
             '1.0.0' => [
                 'app_security' => 'ZGIzN^WMzZG!VkY@2FkMDl@mNWIz!ZDR#lYTczOGFjZDQ5M2Q^',
                 'update_type' => 0, // 0=不更新 1=推荐更新 2=强制更新
             ],
-            '1.0.1' => [
+            '2.0.1' => [
                 'app_security' => 'ZGIzN^WMzZG!VkY@2FkMDl@mNWIz!ZDR#lYTczOGFjZDQ5M2Q^',
                 'update_type' => 0,
             ],
@@ -83,6 +83,7 @@ return [
         'index_title' => isset($res['pc']['index_title']) ? $res['pc']['index_title'] : env('APP_NAME', ''),
         'index_keywords' => isset($res['pc']['index_keywords']) ? $res['pc']['index_keywords'] : env('APP_NAME', ''),
         'index_description' => isset($res['pc']['index_description']) ? $res['pc']['index_description'] : env('APP_NAME', ''),
+        'account_logo' => isset($res['pc']['account_logo']) ? $res['pc']['account_logo'] : $app_url . '/static/default/images/account_logo.png',
     ],
 
     // 微信小程序设置
@@ -236,10 +237,10 @@ return [
 
     // 提现
     'withdrawal' => [
-        'min' => 100,
-        'max' => 5000,
-        'today_count' => 1,
-        'rate' => 0.03,
+        'min' => 100, // 最小提现金额
+        'max' => 5000, // 最大提现金额
+        'today_count' => 1, // 每天可提现次数
+        'rate' => 0.03, // 提现手续费
         'status' => [
             0 => '审核中',
             1 => '审核成功',

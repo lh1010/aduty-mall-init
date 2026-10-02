@@ -3,17 +3,15 @@
 function getLoginUser()
 {
     $user = [];
-    $user_token = '';
-
+    $token = '';
     if (Request()->isMethod('post')) {
-        $user_token = Request()->user_token;
-        if (empty($user_token)) $user_token = Request()->header('user_token');
+        $token = Request()->token;
+        if (empty($token)) $token = Request()->header('token');
     } else {
-        $user_token = Cookie::get('user_token');
+        $token = Cookie::get('token');
     }
-    if (empty($user_token)) return $user;
-
-    $user_login_log = DB::table('user_login_log')->where(['token' => $user_token, 'status' => 1])->first();
+    if (empty($token)) return $user;
+    $user_login_log = DB::table('user_login_log')->where(['token' => $token, 'status' => 1])->first();
     if (empty($user_login_log)) return $user;
     $select = [
         'user.id',
@@ -27,6 +25,7 @@ function getLoginUser()
         'user.wallet',
         'user.gold',
         'user.city_id',
+        'user.city_name',
         'user.sex',
         'user.password',
         'user.realname_auth',
@@ -42,7 +41,8 @@ function getLoginUser()
 
     if (empty($user)) return $user;
     $user->avatar = !empty($user->avatar) ? fileView($user->avatar) : Config('common.image.user_avatar');
-
+    // 联系方式
+    $user->contact = DB::table('user_contact')->where('user_id', $user->id)->first();
     // VIP会员
     $user->vip = 0;
     $user_member = DB::table('user_member')->where('user_id', $user->id)->orderBy('end_date', 'desc')->first();
@@ -50,17 +50,14 @@ function getLoginUser()
         if (strtotime($user_member->end_date) > time()) $user->vip = 1;
         $user->member_end_date = date('Y-m-d', strtotime($user_member->end_date));
     }
-
     // 实名认证
     if ($user->realname_auth == 2) {
         $user->realname_auth_log = DB::table('user_realname_auth_log')->where(['user_id' => $user->id, 'status' => 2])->orderBy('created_at', 'desc')->first();
     }
-
     // 企业认证
     if ($user->company_auth == 2) {
         $user->company_auth_log = DB::table('user_company_auth_log')->where(['user_id' => $user->id, 'status' => 2])->orderBy('created_at', 'desc')->first();
     }
-
     return $user;
 }
 
@@ -95,11 +92,11 @@ function jsonFailed($message = 'operate failed', $code = 400)
 }
 
 /**
- * @param array $data
+ * @param $data
  * @param int $code
  * @return json
  */
-function jsonSuccess($data = '', $code = 200, $message = 'operate success')
+function jsonSuccess($data = null, $code = 200, $message = 'operate success')
 {
 	return response()->json(['code' => $code, 'data' => $data, 'message' => $message]);
 }
@@ -115,11 +112,11 @@ function arrayFailed($message = 'operate failed', $code = 400)
 }
 
 /**
- * @param array $data
+ * @param $data
  * @param int $code
- * @return json
+ * @return array
  */
-function arraySuccess($data = '', $code = 200, $message = 'operate success')
+function arraySuccess($data = null, $code = 200, $message = 'operate success')
 {
 	return ['code' => $code, 'data' => $data, 'message' => $message];
 }
@@ -151,6 +148,9 @@ function logWrite($data = '', $type = 'error')
 function fileView($file = '')
 {
     if (empty($file)) return $file;
+    if (strpos($file, 'http://') === 0 || strpos($file, 'https://') === 0) {
+        return $file;
+    }
     $file = Config('common.oss.status') ? Config('common.oss.url') . $file : Config('common.app_url') . $file;
     return $file;
 }

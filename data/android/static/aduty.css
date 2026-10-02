@@ -1,0 +1,204 @@
+.aduty-container {
+	width: 700rpx;
+	margin: 0 auto;
+}
+
+/* text-color 文字颜色 start */
+.aduty-text-color {
+  color: #ff6131;
+}
+.aduty-text-default {
+  color: #ff6131;
+}
+.aduty-text-danger {
+	color: #FF0000;
+}
+.aduty-text-price {
+  color: #FF0000;
+}
+/* text-color 文字颜色 end */
+
+/* button 按钮 start */
+.aduty-btn-primary {
+  background-color: #ff6131;
+  color: #ffffff;
+}
+.aduty-btn-payment {
+  background-color: #d8b66c;
+  color: #ffffff;
+}
+.aduty-btn-weixin {
+  background-color: #1AAD19;
+  color: #ffffff;
+}
+.aduty-btn-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+.aduty-btn-danger {
+  background-color: #FF0000;
+  color: #ffffff;
+}
+.aduty-btn-hover {
+  opacity: 0.8;
+  color: #ffffff;
+}
+/* button 按钮 end */
+
+/* form 表单 start */
+.aduty-form {
+	font-size: 14px;
+}
+.aduty-form .aduty-form-cell {
+	padding: 30rpx 0;
+	margin: 0 30rpx;
+	border-bottom: 1px solid #f5f5f5;
+}
+.aduty-form .aduty-form-cell-box {
+  display: flex;
+  align-items: center;
+}
+.aduty-form .aduty-form-cell-hd {
+	margin-right: 16px;
+}
+.aduty-form .aduty-form-cell-bd {
+	flex: 1;
+}
+.aduty-form .aduty-form-cell-ed {
+	margin-left: 6px;
+}
+/* 提示语 常规在aduty-form-cell-box下使用 */
+.aduty-form .aduty-form-cell-tip {
+  color: #999;
+  font-size: 12px;
+  margin-top: 20rpx;
+}
+.aduty-form .aduty-form-label {
+	width: 140rpx;
+}
+.aduty-form .aduty-form-input {
+	font-size: 14px;
+}
+.aduty-form .aduty-form-textarea {
+	display: block;
+	font-size: 14px;
+	resize: none;
+	background: transparent;
+	color: inherit;
+	font-family: inherit;
+	line-height: inherit;
+	width: 100%;
+	height: 80px;
+	outline: 0;
+}
+/* 居右显示 */
+.aduty-form .aduty-form-right .aduty-form-cell-bd {
+	text-align: right;
+}
+/* 头像 */
+.aduty-form .aduty-form-avatar .avatar {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+}
+/* 表单操作 */
+.aduty-form .aduty-form-action {
+	margin-top: 30rpx;
+}
+/* 表单块 */
+.aduty-form-box {
+	background-color: #fff;
+	margin-bottom: 30rpx;
+}
+.aduty-form-box-top {
+	padding: 30rpx 0;
+	margin: 0 30rpx;
+	border-bottom: 1px solid #f5f5f5;
+  display: flex;
+  align-items: center;
+	font-weight: bold;
+}
+.aduty-form-box-bd {
+  padding: 30rpx;
+}
+/* form 表单 end */
+
+/* 空数据 start */
+.aduty-empty {
+	text-align: center;
+	padding: 80rpx 0;
+}
+.aduty-empty .aduty-empty-img {
+	width: 260rpx;
+	height: 260rpx;
+}
+.aduty-empty .aduty-empty-text {
+	font-size: 14px;
+	color: #999;
+	margin-top: 20rpx;
+	display: block;
+}
+/* 空数据 end */
+
+/* 骨架屏 start */
+@keyframes aduty-skeleton-loading {
+	0% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0 50%;
+	}
+}
+.aduty-skeleton .aduty-skeleton-item {
+	background: #f0f2f5;
+	display: inline-block;
+	width: 100%;
+	height: 16px;
+	border-radius: 4px;
+}
+.aduty-skeleton .aduty-skeleton-animated {
+	background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
+	background-size: 400% 100%;
+	animation: aduty-skeleton-loading 1.4s ease infinite;
+}
+/* 骨架屏 end */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* table 表格 start */
+.aduty-table {
+  border-radius: 5px;
+  overflow: hidden;
+}
+.aduty-table .aduty-table-tr {
+  display: flex;
+}
+.aduty-table .aduty-table-th {
+  flex: 1;
+  padding: 8px 10px;
+  background-color: #ffe6c9;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #333;
+}
+.aduty-table .aduty-table-td {
+  flex: 1;
+  padding: 8px 10px;
+}
+.aduty-table .text-center {
+  text-align: center;
+}
+/* table 表格 end */

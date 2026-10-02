@@ -4,19 +4,18 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Repositorys\CommonRepository;
+use App\Repositorys\AdverRepository;
+use App\Repositorys\ProductRepository;
 
 class HomeController extends BaseController
 {
     public function index(Request $request)
     {
-        $data = app(CommonRepository::class)->getIndexData_pc();
-        $data['page_index_ident'] = 'index';
-        return view(Config('common.view.tpl_folder') . '.home.index', $data);
+        return redirect('/web/download');
     }
 
     public function download(Request $request)
     {
-        return view(Config('common.view.tpl_folder') . '.home.download');
+        return view('web.home.download');
     }
 }

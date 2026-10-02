@@ -26,9 +26,9 @@
 		      <label class="col-2 col-form-label text-end"><i class="iconfont iconfont-question" data-bs-toggle="tooltip" title="" data-bs-original-title="电脑网站LOGO，建议尺寸：200X58"></i> LOGO：</label>
 		      <div class="col-auto">
 		        @if(Config('common.pc.app_logo'))
-		        <div class="luckFU luckFU_3_6 uploaded" style="width: 120px; height: 60px;" data-name="pc[app_logo]" data-url="/api/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.pc.app_logo')}}"><input type="hidden" name="pc[app_logo]" value="{{Config('common.pc.app_logo')}}"></div>
+		        <div class="luckFU luckFU_3_6 uploaded" style="width: 120px; height: 60px;" data-name="pc[app_logo]" data-url="/admin/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.pc.app_logo')}}"><input type="hidden" name="pc[app_logo]" value="{{Config('common.pc.app_logo')}}"></div>
 		        @else
-		        <div class="luckFU luckFU_3_6" style="width: 120px; height: 60px;" data-name="pc[app_logo]" data-url="/api/upload">
+		        <div class="luckFU luckFU_3_6" style="width: 120px; height: 60px;" data-name="pc[app_logo]" data-url="/admin/upload">
 		          <input type="hidden" name="pc[app_logo]" value="">
 		        </div>
 		        @endif
@@ -95,6 +95,6 @@ $("#form").validate({
       });
     });
   }
-});  
+});
 </script>
 @endsection

@@ -6,7 +6,7 @@ use DB;
 
 class ArticleRepository
 {
-    public function getArticles($params = [], $type = 'paginate', $limit = 15)
+    public function getList($params = [], $type = 'paginate', $limit = 15)
     {
         $query = DB::table('article');
         $this->setParams($query, $params);
@@ -39,7 +39,7 @@ class ArticleRepository
         }
     }
 
-    public function getArticle($id)
+    public function getShow($id)
     {
         $query = DB::table('article');
         $query->where('id', $id);

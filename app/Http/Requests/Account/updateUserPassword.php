@@ -17,7 +17,7 @@ class updateUserPassword extends FormRequest
     public function messages()
     {
         return [
-            'password.required' => '新密码不能为空',
+            'password.required' => '密码不能为空',
         ];
     }
 }

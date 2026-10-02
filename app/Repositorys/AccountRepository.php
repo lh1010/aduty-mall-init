@@ -23,7 +23,7 @@ class AccountRepository
         $user = DB::table('user')->where('phone', $params['phone'])->first();
         if (!empty($user) && $user->status == 0) return jsonFailed('该手机号已被禁用，请联系客服');
         if (!empty($user)) return jsonFailed('该手机号已注册，请直接登录');
-        $params['register_client'] = isset($params['request_client']) ? $params['request_client'] : '电脑网站';
+        $params['register_client'] = Request()->header('client') ?? 'pc';
 
         DB::beginTransaction();
         try {
@@ -45,7 +45,7 @@ class AccountRepository
             DB::table('user_contact')->insert(['user_id' => $user_id, 'phone' => $params['phone']]);
 
             // 微信内打开h5 更新用户wxmp_openid
-            if (isset($params['type']) && $params['type'] == 'wxmp') {
+            if (Request()->header('client') == 'wxmp') {
                 if (!isset($params['wxmp_openid']) || empty($params['wxmp_openid'])) {
                     DB::rollBack();
                     return jsonFailed('微信授权已失效，请刷新当前页面');
@@ -54,7 +54,7 @@ class AccountRepository
             }
 
             // 小程序客户端
-            if (isset($params['request_client']) && $params['request_client'] == 'wxapp') {
+            if (Request()->header('client') == 'wxapp') {
                 if (!isset($params['code2seesion']) || empty($params['code2seesion'])) {
                     DB::rollBack();
                     return jsonFailed('微信授权已失效，请刷新当前页面');
@@ -65,12 +65,17 @@ class AccountRepository
                 DB::table('user')->where('id', $user_id)->update(['wxapp_openid' => $openid]);
             }
 
+            $userInfo = [
+                'id' => $user_id,
+                'nickname' => $user_data['nickname']
+            ];
+
             $token = $this->loginSuccess($user_id);
-            Cookie::queue('user_token', $token, Config('common.user_hold_login_time'));
+            // Cookie::queue('token', $token, Config('common.user_hold_login_time'));
 
             if (!empty($sms_code)) DB::table('sms_code')->where('id', $sms_code->id)->update(['is_used' => 1]);
             DB::commit();
-            return jsonSuccess(['user_token' => $token]);
+            return jsonSuccess(['token' => $token, 'user_info' => $userInfo]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return jsonFailed($th->getMessage());
@@ -99,26 +104,26 @@ class AccountRepository
             if (!empty($user)) {
                 if ($user->status == 0) return jsonFailed('该手机号已被禁用，请联系客服');
                 $user_id = $user->id;
+                $user_nickname = $user->nickname;
             } else {
                 // 验证码登录 新用户
                 $user_data = ['phone' => $params['phone'], 'nickname' => 'u' . rand(100000, 999999)];
-
                 // 注册客户端
-                $user_data['register_client'] = isset($params['request_client']) ? $params['request_client'] : '电脑网站';
-
+                $user_data['register_client'] = Request()->header('client') ?? 'pc';
                 // 推荐用户
-                if (isset($params['invite_code']) && !empty($params['invite_code'])) {
+                if (!empty($params['invite_code'])) {
                     $puser = DB::table('user')->where('id', $params['invite_code'])->first();
                     if (!empty($puser)) $user_data['pid'] = $puser->id;
                 }
                 $user_id = DB::table('user')->insertGetId($user_data);
+                $user_nickname = $user_data['nickname'];
 
                 // 填充联系方式
                 DB::table('user_contact')->insert(['user_id' => $user_id, 'phone' => $params['phone']]);
             }
 
             // 微信内打开h5 更新用户wxmp_openid
-            if (isset($params['type']) && $params['type'] == 'wxmp') {
+            if (Request()->header('client') == 'wxmp') {
                 if (!isset($params['wxmp_openid']) || empty($params['wxmp_openid'])) {
                     DB::rollBack();
                     return jsonFailed('微信授权已失效，请刷新当前页面');
@@ -127,7 +132,7 @@ class AccountRepository
             }
 
             // 小程序客户端
-            if (isset($params['request_client']) && $params['request_client'] == 'wxapp') {
+            if (Request()->header('client') == 'wxapp') {
                 if (!isset($params['code2seesion']) || empty($params['code2seesion'])) {
                     DB::rollBack();
                     return jsonFailed('微信授权已失效，请刷新当前页面');
@@ -138,12 +143,17 @@ class AccountRepository
                 DB::table('user')->where('id', $user_id)->update(['wxapp_openid' => $openid]);
             }
 
+            $userInfo = [
+                'id' => $user_id,
+                'nickname' => $user_nickname
+            ];
+
             $token = $this->loginSuccess($user_id);
-            Cookie::queue('user_token', $token, Config('common.user_hold_login_time'));
+            // Cookie::queue('token', $token, Config('common.user_hold_login_time'));
 
             if (!empty($sms_code)) DB::table('sms_code')->where('id', $sms_code->id)->update(['is_used' => 1]);
             DB::commit();
-            return jsonSuccess(['user_token' => $token]);
+            return jsonSuccess(['token' => $token, 'user_info' => $userInfo]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return jsonFailed($th->getMessage());
@@ -162,13 +172,13 @@ class AccountRepository
         if ($user->status == 0) return jsonFailed('该用户已关闭，请联系客服');
 
         // 微信内打开h5 更新用户wxmp_openid
-        if (isset($params['type']) && $params['type'] == 'wxmp') {
+        if (Request()->header('client') == 'wxmp') {
             if (!isset($params['wxmp_openid']) || empty($params['wxmp_openid'])) return jsonFailed('微信授权已失效，请刷新当前页面');
             DB::table('user')->where('id', $user->id)->update(['wxmp_openid' => $params['wxmp_openid']]);
         }
 
         // 小程序客户端
-        if (isset($params['request_client']) && $params['request_client'] == 'wxapp') {
+        if (Request()->header('client') == 'wxapp') {
             if (!isset($params['code2seesion']) || empty($params['code2seesion'])) return jsonFailed('微信授权已失效，请刷新当前页面');
             $code2seesion = base64_decode($params['code2seesion']);
             $array = explode('[luck]', $code2seesion);
@@ -176,9 +186,15 @@ class AccountRepository
             DB::table('user')->where('id', $user->id)->update(['wxapp_openid' => $openid]);
         }
 
+        $userInfo = [
+            'id' => $user->id,
+            'nickname' => $user->nickname,
+            'avatar' => !empty($user->avatar) ? fileView($user->avatar) : Config('common.image.user_avatar')
+        ];
+
         $token = $this->loginSuccess($user->id);
-        Cookie::queue('user_token', $token, Config('common.user_hold_login_time'));
-        return jsonSuccess(['user_token' => $token]);
+        // Cookie::queue('token', $token, Config('common.user_hold_login_time'));
+        return jsonSuccess(['token' => $token, 'user_info' => $userInfo]);
     }
 
     public function loginSuccess($user_id)

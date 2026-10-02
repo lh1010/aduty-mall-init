@@ -32,7 +32,7 @@ class OrderRepository
         }
 
         foreach ($orders as $key => $value) {
-            $orders[$key]->status_str = Config('common.mall.order_status')[$value->status];
+            $orders[$key]->status_show = Config('common.mall.order_status')[$value->status];
             $orders[$key]->snaps = isset($array[$value->id]) ? $array[$value->id] : [];
         }
         return $orders;
@@ -86,7 +86,7 @@ class OrderRepository
 
         $order = $query->first();
         if (empty($order)) return $order;
-        $order->status_str = Config('common.mall.order_status')[$order->status];
+        $order->status_show = Config('common.mall.order_status')[$order->status];
 
         $snaps = DB::table('order_snap')->where('order_id', $order->id)->get()->toArray();
         foreach ($snaps as $key => $value) {
@@ -137,7 +137,7 @@ class OrderRepository
             }
         }
         $data['address'] = $address;
-        $data['addresses'] = DB::table('user_address')->where(['user_id' => $user->id])->orderBy('default', 'desc')->orderBy('id', 'asc')->get()->toArray();
+        // $data['addresses'] = DB::table('user_address')->where(['user_id' => $user->id])->orderBy('default', 'desc')->orderBy('id', 'asc')->get()->toArray();
 
         // 合计
         $totalData = [
@@ -236,5 +236,26 @@ class OrderRepository
         $data = ['products' => $products, 'totalData' => $totalData];
         $data = object_to_array($data);
         return $data;
+    }
+    public function getCartTotal($user, $params = [])
+    {
+        $select = ['cart.selected', 'cart.count', 'product_sku.sku', 'product_sku.price'];
+        $query = DB::table('cart');
+        $query->select($select);
+        $query->leftJoin('product', 'product.id', 'cart.product_id');
+        $query->leftJoin('product_sku', 'cart.sku', 'product_sku.sku');
+        $query->where('cart.user_id', $user->id);
+        if (isset($params['selected'])) $query->where('cart.selected', $params['selected']);
+        $products = $query->get();
+        foreach ($products as $key => $value) {
+            $products[$key]->total_price = bcmul($value->price, $value->count, 2);
+        }
+        $totalData = ['total_price' => 0, 'all_selected' => 1];
+        foreach ($products as $key => $value) {
+            $products[$key]->cover = !empty($value->cover) ? fileView($value->cover) : Config('common.image.product_cover');
+            if ($value->selected == 1) $totalData['total_price'] = bcadd(($value->price * $value->count), $totalData['total_price'], 2);
+            if ($value->selected != 1) $totalData['all_selected'] = 0;
+        }
+        return $totalData;
     }
 }

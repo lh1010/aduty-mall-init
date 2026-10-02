@@ -3,6 +3,7 @@
 namespace App\Repositorys;
 
 use DB;
+use QrCode;
 
 class PaymentRepository
 {
@@ -97,8 +98,14 @@ class PaymentRepository
         $notifyUrl = Config('common.app_url') . '/api/payment/weixinpay_notify';
         $payTime = time();
         $array = $wxPay->createJsBizPackage($payAmount, $outTradeNo, $orderName, $notifyUrl, $payTime);
-        $qrCode = 'https://api.pwmqr.com/qrcode/create?url=' . $array['code_url'];
-        return $qrCode;
+        // $array['code_url'] = 'https://baidu.com';
+        $qrImg = QrCode::encoding('UTF-8')
+            ->format('png')
+            ->size(200)
+            ->generate($array['code_url']);
+        $qrImg_base64 = 'data:image/png;base64,' . base64_encode($qrImg);
+        // $qrCode = 'https://api.pwmqr.com/qrcode/create?url=' . $array['code_url'];
+        return $qrImg_base64;
     }
 
     /**

@@ -16,9 +16,10 @@ class OrderController extends BaseController
     public function getList(Request $request)
     {
         $user = $request->get('user');
+        $page_size = $request->get('page_size', 15);
         $params = $request->all();
         $params['user_id'] = $user->id;
-        $orders = app(OrderRepository::class)->getList($params);
+        $orders = app(OrderRepository::class)->getList($params, $type = 'paginate', $page_size);
         return jsonSuccess($orders);
     }
 
@@ -43,8 +44,8 @@ class OrderController extends BaseController
         $user = $request->get('user');
         $params = $request->all();
         $params['user'] = $user;
-        $checkoutData = app(OrderRepository::class)->getCheckoutData($params);
-        return $checkoutData;
+        $checkoutDataRes = app(OrderRepository::class)->getCheckoutData($params);
+        return $checkoutDataRes;
     }
 
     public function getOrderPayData(Request $request)
@@ -57,7 +58,7 @@ class OrderController extends BaseController
         foreach ($orders as $key => $value) {
             $totalData['total_price'] = bcadd($totalData['total_price'], $value->total_price, 2);
         }
-        $data = ['orders' => $orders, 'totalData' => $totalData];
+        $data = ['orders' => $orders, 'totalData' => $totalData, 'user' => $user];
         return jsonSuccess($data);
     }
 
@@ -87,6 +88,7 @@ class OrderController extends BaseController
             $data_order['detailed_address'] = $address['detailed_address'];
             $data_order['product_total_price'] = $totalData['product_total_price'];
             $data_order['total_price'] = $totalData['total_price'];
+            $data_order['type'] = $params['type'];
             $order_id = DB::table('order')->insertGetId($data_order);
             $number = createOrderNumber($order_id);
             DB::table('order')->where('id', $order_id)->update(['number' => $number]);
@@ -134,6 +136,20 @@ class OrderController extends BaseController
         if ($order->status != 0) return jsonFailed('订单状态已更新，请刷新当前页面');
         DB::table('order')->where(['id' => $order->id])->update(['status' => -10]);
         DB::table('order_log')->insert(['order_id' => $order->id, 'content' => '买家已取消订单']);
+        return jsonSuccess();
+    }
+
+    /**
+     * 确认收货
+     */
+    public function receiveOrder(Request $request)
+    {
+        $user = $request->get('user');
+        $order = DB::table('order')->where(['id' => $request->order_id, 'user_id' => $user->id])->first();
+        if (empty($order)) return jsonFailed('订单不存在');
+        if ($order->status != 20) return jsonFailed('订单状态已更新，请刷新当前页面');
+        DB::table('order')->where(['id' => $order->id])->update(['status' => 30]);
+        DB::table('order_log')->insert(['order_id' => $order->id, 'content' => '买家已确认收货']);
         return jsonSuccess();
     }
 }

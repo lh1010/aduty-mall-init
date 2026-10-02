@@ -32,9 +32,9 @@
 		      <label class="col-2 col-form-label text-end"><i class="iconfont iconfont-question" data-bs-toggle="tooltip" title="" data-bs-original-title="公众号二维码"></i> 二维码：</label>
 		      <div class="col-auto">
 		        @if(Config('common.wxmp.qrcode'))
-		        <div class="luckFU uploaded" style="width: 80px; height: 80px;" data-name="wxmp[qrcode]" data-url="/api/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.wxmp.qrcode')}}"><input type="hidden" name="wxmp[qrcode]" value="{{Config('common.wxmp.qrcode')}}"></div>
+		        <div class="luckFU uploaded" style="width: 80px; height: 80px;" data-name="wxmp[qrcode]" data-url="/admin/upload"><i class="luckFU_remove iconfont" href="javascript:void(0);"></i><img src="{{Config('common.wxmp.qrcode')}}"><input type="hidden" name="wxmp[qrcode]" value="{{Config('common.wxmp.qrcode')}}"></div>
 		        @else
-		        <div class="luckFU" style="width: 80px; height: 80px;" data-name="wxmp[qrcode]" data-url="/api/upload">
+		        <div class="luckFU" style="width: 80px; height: 80px;" data-name="wxmp[qrcode]" data-url="/admin/upload">
 		          <input type="hidden" name="wxmp[qrcode]" value="">
 		        </div>
 		        @endif
@@ -77,6 +77,6 @@ $("#form").validate({
       });
     });
   }
-});  
+});
 </script>
 @endsection

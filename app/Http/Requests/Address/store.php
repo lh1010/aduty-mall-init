@@ -13,9 +13,9 @@ class store extends FormRequest
         return [
             'name' => ['required'],
             'phone' => ['required', new Phone],
-            'province_id' => ['required'],
-            'city_id' => ['required'],
-            'district_id' => ['required'],
+            // 'province_id' => ['required'],
+            // 'city_id' => ['required'],
+            // 'district_id' => ['required'],
             'detailed_address' => ['required'],
         ];
     }
@@ -25,9 +25,9 @@ class store extends FormRequest
         return [
             'name.required' => '姓名不能为空',
             'phone.required' => '手机号不能为空',
-            'province_id.required' => '请选择省份',
-            'city_id.required' => '请选择城市',
-            'district_id.required' => '请选择区域',
+            // 'province_id.required' => '请选择省份',
+            // 'city_id.required' => '请选择城市',
+            // 'district_id.required' => '请选择区域',
             'detailed_address.required' => '详细地址不能为空',
         ];
     }
