@@ -26,13 +26,13 @@ APP：[https://adutymall.lh909.com/web/download](https://adutymall.lh909.com/web
 
 # 下载地址
 
-[夸克网盘](https://pan.quark.cn/s/569cd342d8a9)
-
-[百度网盘](https://pan.baidu.com/s/1ouQIHeuguvPMaJAikQ3U4g?pwd=dqmt)
-
 [Gitee](https://gitee.com/lh1010/aduty-mall-init)
 
 [GitHub](https://github.com/lh1010/aduty-mall-init)
+
+[夸克网盘](https://pan.quark.cn/s/0bda9ab67d6d)
+
+[百度网盘](https://pan.baidu.com/s/1GsDS-eRThz4PlU5VlQvXCQ?pwd=6k6v)
 
 # 使用手册
 
