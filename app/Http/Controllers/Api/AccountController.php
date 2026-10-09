@@ -52,7 +52,6 @@ class AccountController extends BaseController
 
     public function sendCode(\App\Http\Requests\Account\sendCode $request)
     {
-        return jsonSuccess();
         $phone = $request->phone;
         $sms_code = DB::table('sms_code')->where(['phone' => $phone, 'is_used' => 0])->orderBy('created_at', 'desc')->first();
         if (!empty($sms_code)) {

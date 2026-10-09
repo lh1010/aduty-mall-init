@@ -37,7 +37,7 @@
           <button class="aduty-btn aduty-btn-primary" hover-class="aduty-btn-hover" formType="submit" :style="{ marginTop: '15px' }">立即注册</button>
         </form>
         <view class="other_way">
-          <view class="ow_item" @click="jumpPage('/pages/account/login_password');">已有账号？立即登录</view>
+          <view class="ow_item" @click="jumpPage('/pages/account/login');">已有账号？立即登录</view>
         </view>
         <view class="wxapplogin none" :style="{ marginTop: '50px' }" v-if="!readAgreementStatus" @click="showAgreementErrorMsg">
           <view class="box">
